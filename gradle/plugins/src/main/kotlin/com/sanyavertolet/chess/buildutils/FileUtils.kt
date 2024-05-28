@@ -13,6 +13,7 @@ fun readFromFileOrEnv(
     envName: String,
 ): String? = readFromFile(filePath) ?: System.getenv(envName)
 
+@Suppress("unused")
 fun Project.readFromPropertyOrEnv(
     propertyName: String,
     envName: String,

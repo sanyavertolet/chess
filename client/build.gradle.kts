@@ -21,13 +21,13 @@ kotlin {
     sourceSets {
         val jsMain by getting {
             dependencies {
-                implementation(platform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$kotlinWrappersVersion"))
+                implementation(project.dependencies.platform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$kotlinWrappersVersion"))
                 implementation(kotlinw("react"))
                 implementation(kotlinw("react-dom"))
                 implementation(kotlinw("react-router"))
                 implementation(kotlinw("react-router-dom"))
 
-                implementation(platform("org.kotlincrypto.hash:bom:0.3.0"))
+                implementation(project.dependencies.platform("org.kotlincrypto.hash:bom:0.3.0"))
                 implementation("org.kotlincrypto.hash:md")
 
                 implementation(kotlinw("mui-material"))

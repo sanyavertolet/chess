@@ -1,8 +1,5 @@
 package com.sanyavertolet.chess.buildutils
 
-import io.gitlab.arturbosch.detekt.Detekt
-import io.gitlab.arturbosch.detekt.report.ReportMergeTask
-
 plugins {
     id("com.saveourtool.diktat")
 }

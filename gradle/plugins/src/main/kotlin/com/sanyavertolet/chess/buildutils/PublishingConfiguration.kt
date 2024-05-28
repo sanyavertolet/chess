@@ -30,6 +30,7 @@ import org.gradle.plugins.signing.SigningExtension
  *
  * Should be explicitly called after each custom `publishing {}` section.
  */
+@Suppress("unused")
 fun Project.configureSigning() {
     System.getenv("GPG_SEC")?.let { extra.set("signingKey", it) }
     System.getenv("GPG_PASSWORD")?.let { extra.set("signingPassword", it) }

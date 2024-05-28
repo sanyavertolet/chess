@@ -1,7 +1,6 @@
 package com.sanyavertolet
 
 import com.sanyavertolet.chess.plugins.configureRouting
-import com.sanyavertolet.plugins.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
