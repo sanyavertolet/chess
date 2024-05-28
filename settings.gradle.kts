@@ -23,5 +23,6 @@ plugins {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 includeBuild("gradle/plugins")
-include("server")
+include("common")
 include("client")
+include("server")

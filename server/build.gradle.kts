@@ -4,9 +4,6 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
 }
 
-group = "com.sanyavertolet.chess"
-version = "0.0.1"
-
 application {
     mainClass.set("com.sanyavertolet.server.ApplicationKt")
 
