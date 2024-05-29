@@ -1,5 +1,6 @@
 package com.sanyavertolet.chess.views.welcome
 
+import com.sanyavertolet.chess.utils.isNameValid
 import com.sanyavertolet.chess.utils.targetValue
 import com.sanyavertolet.chess.views.welcome.components.browseComponent
 import com.sanyavertolet.chess.views.welcome.components.createComponent
@@ -10,6 +11,7 @@ import mui.system.sx
 import react.FC
 import react.ReactNode
 import react.dom.onChange
+import react.router.useNavigate
 import react.useEffect
 import react.useState
 import web.cssom.JustifyContent
@@ -17,21 +19,12 @@ import web.cssom.Margin
 import web.cssom.rem
 
 val welcomeView = FC {
+    val navigate = useNavigate()
     val (userName, setUserName) = useState("")
     val (isUserNameValid, setIsUserNameValid) = useState<Boolean?>(null)
     val (currentMode, setCurrentMode) = useState(Mode.CREATE)
 
-    useEffect(userName) {
-        setIsUserNameValid(
-            when {
-                userName.isEmpty() -> null
-                userName.isNotBlank() && userName.length in 2..15 -> true
-                else -> false
-            }
-        )
-    }
-
-    console.log(isUserNameValid)
+    useEffect(userName) { setIsUserNameValid(userName.isNameValid()) }
 
     Container {
         maxWidth = "sm"
@@ -86,18 +79,24 @@ val welcomeView = FC {
                 sx { paddingTop = 2.rem }
                 when (currentMode) {
                     Mode.CREATE -> createComponent {
-                        onCreateClick = {  }
+                        onCreateClick = {
+                            navigate("$userName/$it")
+                        }
                         hostName = userName
                         isCreateButtonDisabled = isUserNameValid != true
                     }
 
                     Mode.JOIN -> joinComponent {
-                        onJoinClick = { }
+                        onJoinClick = {
+                            navigate("$userName/$it")
+                        }
                         isJoinButtonDisabled = isUserNameValid != true
                     }
 
                     Mode.BROWSE -> browseComponent {
-                        onJoinClick = { }
+                        onJoinClick = {
+                            navigate("$userName/$it")
+                        }
                         isJoinButtonDisabled = isUserNameValid != true
                     }
                 }

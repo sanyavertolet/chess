@@ -1,5 +1,7 @@
 package com.sanyavertolet.chess.routing
 
+import com.sanyavertolet.chess.views.errorView
+import com.sanyavertolet.chess.views.lobby.lobbyView
 import com.sanyavertolet.chess.views.welcome.welcomeView
 import js.objects.jso
 import react.create
@@ -15,12 +17,12 @@ fun createRouter() = createHashRouter(
         jso {
             id = "game-route"
             path = ":userName/:lobbyCode"
-//            element = gameView.create()
+            element = lobbyView.create()
         },
         jso {
             id = "error-route"
             path = "*"
-//            element = errorView.create()
+            element = errorView.create()
         },
     )
 )
