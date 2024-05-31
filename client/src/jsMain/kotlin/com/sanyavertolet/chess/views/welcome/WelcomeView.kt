@@ -29,9 +29,8 @@ val welcomeView = FC {
     Container {
         maxWidth = "sm"
         Box {
-            sx {
-                paddingTop = 2.rem
-            }
+            sx { paddingTop = 2.rem }
+
             Stack {
                 spacing = responsive(2)
 
@@ -47,9 +46,7 @@ val welcomeView = FC {
                 }
 
                 Divider {
-                    sx {
-                        margin = Margin(1.rem, 0.rem)
-                    }
+                    sx { margin = Margin(1.rem, 0.rem) }
                 }
 
                 ToggleButtonGroup {
@@ -57,8 +54,8 @@ val welcomeView = FC {
                     exclusive = true
                     color = ToggleButtonGroupColor.primary
                     value = currentMode
-                    onChange = { _, newCreateOrChange ->
-                        (newCreateOrChange as Mode?)?.let { setCurrentMode(it) }
+                    onChange = { _, newModeAsDynamic ->
+                        (newModeAsDynamic as? Mode?)?.let { setCurrentMode(it) }
                     }
                     ToggleButton {
                         value = Mode.CREATE
@@ -79,24 +76,18 @@ val welcomeView = FC {
                 sx { paddingTop = 2.rem }
                 when (currentMode) {
                     Mode.CREATE -> createComponent {
-                        onCreateClick = {
-                            navigate("$userName/$it")
-                        }
+                        onCreateClick = { navigate("/$userName/$it") }
                         hostName = userName
                         isCreateButtonDisabled = isUserNameValid != true
                     }
 
                     Mode.JOIN -> joinComponent {
-                        onJoinClick = {
-                            navigate("$userName/$it")
-                        }
+                        onJoinClick = { navigate("/$userName/$it") }
                         isJoinButtonDisabled = isUserNameValid != true
                     }
 
                     Mode.BROWSE -> browseComponent {
-                        onJoinClick = {
-                            navigate("$userName/$it")
-                        }
+                        onJoinClick = { navigate("/$userName/$it") }
                         isJoinButtonDisabled = isUserNameValid != true
                     }
                 }

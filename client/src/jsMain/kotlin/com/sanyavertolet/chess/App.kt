@@ -11,8 +11,6 @@ import react.create
 import react.router.RouterProvider
 import web.cssom.TextAlign
 
-const val SERVER_URL = "localhost:8080"
-
 val app = FC {
     Container {
         maxWidth = "md"

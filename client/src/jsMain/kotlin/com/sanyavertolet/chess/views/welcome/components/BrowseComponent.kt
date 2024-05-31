@@ -1,17 +1,16 @@
 package com.sanyavertolet.chess.views.welcome.components
 
-import com.sanyavertolet.chess.SERVER_URL
 import com.sanyavertolet.chess.dto.LobbyDto
-import com.sanyavertolet.chess.httpClient
+import com.sanyavertolet.chess.get
+import com.sanyavertolet.chess.utils.useRequest
 import io.ktor.client.call.*
-import io.ktor.client.request.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import io.ktor.http.*
 import mui.icons.material.Refresh
 import mui.material.*
-import react.*
+import react.FC
+import react.Props
 import react.dom.html.ReactHTML.th
+import react.useState
 
 external interface BrowseComponentProps : Props {
     var onJoinClick: (String) -> Unit
@@ -20,14 +19,13 @@ external interface BrowseComponentProps : Props {
 
 val browseComponent: FC<BrowseComponentProps> = FC { props ->
     val (lobbies, setLobbies) = useState<List<LobbyDto>>(emptyList())
-    val scope = useMemo { CoroutineScope(Dispatchers.Default) }
     val (isUpdate, setIsUpdate) = useState(false)
 
-    useEffect(isUpdate) {
-        scope.launch {
-            val lobbyList: List<LobbyDto> = httpClient.get("http://$SERVER_URL/lobbies").body()
+    useRequest(isUpdate) {
+        val response = get("/lobby")
+        if (response.status.isSuccess()) {
+            val lobbyList: List<LobbyDto> = response.body()
             setLobbies(lobbyList)
-            console.log(lobbyList.joinToString { it.toString() })
         }
     }
 

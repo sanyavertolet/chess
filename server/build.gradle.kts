@@ -16,16 +16,21 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":common"))
+
+    implementation(libs.kotlinx.datetime)
+
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.cio)
+    implementation(libs.ktor.server.sessions)
+    implementation(libs.ktor.server.status.pages)
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.ktor.server.content.negotiation)
     implementation(libs.ktor.server.call.logging)
     implementation(libs.ktor.server.websockets)
+    implementation(libs.ktor.server.cors)
 
     implementation(libs.logback.classic)
-    implementation("io.ktor:ktor-server-host-common-jvm")
-    implementation("io.ktor:ktor-server-status-pages-jvm")
     testImplementation(libs.ktor.server.tests)
     testImplementation(libs.kotlin.test.junit)
 }

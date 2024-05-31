@@ -1,6 +1,9 @@
 package com.sanyavertolet.chess.views.welcome.components
 
+import com.sanyavertolet.chess.get
 import com.sanyavertolet.chess.utils.targetValue
+import com.sanyavertolet.chess.utils.useDeferredRequest
+import io.ktor.http.*
 import mui.material.*
 import mui.system.responsive
 import mui.system.sx
@@ -18,6 +21,14 @@ external interface JoinComponentProps : Props {
 
 val joinComponent: FC<JoinComponentProps> = FC { props ->
     val (lobbyCode, setLobbyCode) = useState("")
+
+    val joinLobbyRequest = useDeferredRequest {
+        val response = get("/lobby/$lobbyCode")
+        if (response.status.isSuccess()) {
+            props.onJoinClick(lobbyCode)
+        }
+    }
+
     Stack {
         sx { paddingTop = 1.rem }
         spacing = responsive(2)
@@ -35,7 +46,7 @@ val joinComponent: FC<JoinComponentProps> = FC { props ->
 
         Button {
             variant = ButtonVariant.outlined
-            onClick = { props.onJoinClick(lobbyCode) }
+            onClick = { joinLobbyRequest() }
             disabled = lobbyCode.isBlank() || props.isJoinButtonDisabled
             +"Join"
         }

@@ -1,8 +1,13 @@
 package com.sanyavertolet.chess.views.lobby
 
 import com.sanyavertolet.chess.dto.LobbyDto
+import com.sanyavertolet.chess.get
 import com.sanyavertolet.chess.utils.useDeferredRequest
 import com.sanyavertolet.chess.utils.useOnce
+import com.sanyavertolet.chess.views.lobby.components.lobbyComponent
+import com.sanyavertolet.chess.views.lobby.components.noSuchLobbyComponent
+import io.ktor.client.call.*
+import io.ktor.http.*
 import mui.material.*
 import mui.system.responsive
 import mui.system.sx
@@ -12,8 +17,6 @@ import react.ReactNode
 import react.router.useNavigate
 import react.router.useParams
 import react.useState
-import web.cssom.AlignItems
-import web.cssom.JustifyContent
 import web.cssom.Margin
 import web.cssom.rem
 
@@ -26,20 +29,22 @@ val lobbyView: FC<LobbyViewProps> = FC {
     val (userName, _) = useState(params["userName"])
     val (lobbyCode, _) = useState(params["lobbyCode"])
 
-    val (lobbyDto, _) = useState<LobbyDto?>(null)
+    val (lobbyDto, setLobbyDto) = useState<LobbyDto?>(null)
 
     val fetchLobbyDto = useDeferredRequest {
-//        val lobby: LobbyDto = httpClient.get("/lobby/$lobbyCode").body()
-//        setLobbyDto(lobby)
+        val response = get("/lobby/$lobbyCode")
+        if (response.status.isSuccess()) {
+            val lobby: LobbyDto = response.body()
+            setLobbyDto(lobby)
+        }
     }
     useOnce(fetchLobbyDto)
 
     Container {
         maxWidth = "sm"
         Box {
-            sx {
-                paddingTop = 2.rem
-            }
+            sx { paddingTop = 2.rem }
+
             Stack {
                 spacing = responsive(2)
 
@@ -53,9 +58,7 @@ val lobbyView: FC<LobbyViewProps> = FC {
                 }
 
                 Divider {
-                    sx {
-                        margin = Margin(1.rem, 0.rem)
-                    }
+                    sx { margin = Margin(1.rem, 0.rem) }
                 }
 
             }
@@ -64,35 +67,11 @@ val lobbyView: FC<LobbyViewProps> = FC {
                 sx { paddingTop = 2.rem }
 
                 lobbyDto?.let {
-                    Typography {
-                        +"Lobby $lobbyCode"
-                    }
-                } ?: Stack {
-                    spacing = responsive(2)
-                    sx {
-                        alignItems = AlignItems.center
-                    }
-                    Typography {
-                        +"Could not load lobby with code $lobbyCode"
-                    }
-
-                    Stack {
-                        sx {
-                            justifyContent = JustifyContent.spaceEvenly
-                        }
-                        spacing = responsive(2)
-                        direction = responsive(StackDirection.row)
-                        Button {
-                            variant = ButtonVariant.outlined
-                            onClick = { fetchLobbyDto() }
-                            +"Retry"
-                        }
-                        Button {
-                            variant = ButtonVariant.outlined
-                            onClick = { navigate("/") }
-                            +"Back"
-                        }
-                    }
+                    lobbyComponent { this.lobbyDto = it }
+                } ?: noSuchLobbyComponent {
+                    this.lobbyCode = lobbyCode ?: "UNKNOWN"
+                    this.fetchLobbyDto = fetchLobbyDto
+                    this.goToMainMenu = { navigate("/") }
                 }
             }
         }

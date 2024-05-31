@@ -1,7 +1,12 @@
 package com.sanyavertolet.chess.views.welcome.components
 
+import com.sanyavertolet.chess.dto.LobbyDto
+import com.sanyavertolet.chess.post
 import com.sanyavertolet.chess.utils.getMD5
 import com.sanyavertolet.chess.utils.targetValue
+import com.sanyavertolet.chess.utils.useDeferredRequest
+import io.ktor.client.request.*
+import io.ktor.http.*
 import mui.material.*
 import mui.system.responsive
 import mui.system.sx
@@ -19,6 +24,17 @@ val createComponent: FC<CreateComponentProps> = FC { props ->
     val (lobbyCode, setLobbyCode) = useState("")
     useEffect(props.hostName) {
         setLobbyCode(props.hostName.getMD5(6))
+    }
+
+    val createLobbyRequest = useDeferredRequest {
+        val response = post("/lobby") {
+            contentType(ContentType.Application.Json)
+            setBody(LobbyDto(lobbyCode, props.hostName))
+        }
+        console.log(response.status)
+        if (response.status.isSuccess()) {
+            props.onCreateClick(lobbyCode)
+        }
     }
 
     Stack {
@@ -39,7 +55,7 @@ val createComponent: FC<CreateComponentProps> = FC { props ->
 
         Button {
             variant = ButtonVariant.outlined
-            onClick = { props.onCreateClick(lobbyCode) }
+            onClick = { createLobbyRequest() }
             disabled = props.isCreateButtonDisabled
             +"Create"
         }
