@@ -2,8 +2,10 @@ package com.sanyavertolet.chess.views.welcome.components
 
 import com.sanyavertolet.chess.dto.LobbyDto
 import com.sanyavertolet.chess.get
+import com.sanyavertolet.chess.post
 import com.sanyavertolet.chess.utils.useRequest
 import io.ktor.client.call.*
+import io.ktor.client.request.*
 import io.ktor.http.*
 import mui.icons.material.Refresh
 import mui.material.*
@@ -15,17 +17,30 @@ import react.useState
 external interface BrowseComponentProps : Props {
     var onJoinClick: (String) -> Unit
     var isJoinButtonDisabled: Boolean
+    var userName: String
 }
 
 val browseComponent: FC<BrowseComponentProps> = FC { props ->
     val (lobbies, setLobbies) = useState<List<LobbyDto>>(emptyList())
     val (isUpdate, setIsUpdate) = useState(false)
+    val (selectedLobbyCode, setSelectedLobbyCode) = useState<String?>(null)
 
     useRequest(isUpdate) {
         val response = get("/lobby")
         if (response.status.isSuccess()) {
             val lobbyList: List<LobbyDto> = response.body()
             setLobbies(lobbyList)
+        }
+    }
+
+    useRequest(selectedLobbyCode) {
+        selectedLobbyCode?.let {
+            val response = post("/lobby/$selectedLobbyCode/join") {
+                parameter("userName", props.userName)
+            }
+            if (response.status.isSuccess()) {
+                props.onJoinClick(selectedLobbyCode)
+            }
         }
     }
 
@@ -71,7 +86,7 @@ val browseComponent: FC<BrowseComponentProps> = FC { props ->
                                 align = TableCellAlign.right
                                 Button {
                                     variant = ButtonVariant.outlined
-                                    onClick = { props.onJoinClick(lobby.lobbyCode) }
+                                    onClick = { setSelectedLobbyCode(lobby.lobbyCode) }
                                     disabled = props.isJoinButtonDisabled
                                     +"Join"
                                 }

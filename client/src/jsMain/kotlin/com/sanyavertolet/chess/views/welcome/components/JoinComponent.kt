@@ -1,8 +1,9 @@
 package com.sanyavertolet.chess.views.welcome.components
 
-import com.sanyavertolet.chess.get
+import com.sanyavertolet.chess.post
 import com.sanyavertolet.chess.utils.targetValue
 import com.sanyavertolet.chess.utils.useDeferredRequest
+import io.ktor.client.request.*
 import io.ktor.http.*
 import mui.material.*
 import mui.system.responsive
@@ -17,13 +18,16 @@ import web.cssom.rem
 external interface JoinComponentProps : Props {
     var onJoinClick: (String) -> Unit
     var isJoinButtonDisabled: Boolean
+    var userName: String
 }
 
 val joinComponent: FC<JoinComponentProps> = FC { props ->
     val (lobbyCode, setLobbyCode) = useState("")
 
     val joinLobbyRequest = useDeferredRequest {
-        val response = get("/lobby/$lobbyCode")
+        val response = post("/lobby/$lobbyCode/join") {
+            parameter("userName", props.userName)
+        }
         if (response.status.isSuccess()) {
             props.onJoinClick(lobbyCode)
         }

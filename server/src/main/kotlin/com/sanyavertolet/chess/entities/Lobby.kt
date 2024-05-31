@@ -8,5 +8,7 @@ data class Lobby(
     val hostName: String,
     val createdTime: LocalDateTime,
 ) {
+    var players: MutableMap<String, Player> = mutableMapOf(hostName to Player(hostName))
+
     fun toDto() = LobbyDto(lobbyCode, hostName)
 }

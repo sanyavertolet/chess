@@ -76,19 +76,21 @@ val welcomeView = FC {
                 sx { paddingTop = 2.rem }
                 when (currentMode) {
                     Mode.CREATE -> createComponent {
-                        onCreateClick = { navigate("/$userName/$it") }
-                        hostName = userName
-                        isCreateButtonDisabled = isUserNameValid != true
+                        this.onCreateClick = { navigate("/$userName/$it") }
+                        this.isCreateButtonDisabled = isUserNameValid != true
+                        this.userName = userName
                     }
 
                     Mode.JOIN -> joinComponent {
-                        onJoinClick = { navigate("/$userName/$it") }
-                        isJoinButtonDisabled = isUserNameValid != true
+                        this.onJoinClick = { navigate("/$userName/$it") }
+                        this.isJoinButtonDisabled = isUserNameValid != true
+                        this.userName = userName
                     }
 
                     Mode.BROWSE -> browseComponent {
-                        onJoinClick = { navigate("/$userName/$it") }
-                        isJoinButtonDisabled = isUserNameValid != true
+                        this.onJoinClick = { navigate("/$userName/$it") }
+                        this.isJoinButtonDisabled = isUserNameValid != true
+                        this.userName = userName
                     }
                 }
             }

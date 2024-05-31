@@ -16,22 +16,22 @@ import web.cssom.rem
 
 external interface CreateComponentProps : Props {
     var onCreateClick: (String) -> Unit
-    var hostName: String
     var isCreateButtonDisabled: Boolean
+    var userName: String
 }
 
 val createComponent: FC<CreateComponentProps> = FC { props ->
     val (lobbyCode, setLobbyCode) = useState("")
-    useEffect(props.hostName) {
-        setLobbyCode(props.hostName.getMD5(6))
+    useEffect(props.userName) {
+        setLobbyCode(props.userName.getMD5(6))
     }
 
     val createLobbyRequest = useDeferredRequest {
         val response = post("/lobby") {
             contentType(ContentType.Application.Json)
-            setBody(LobbyDto(lobbyCode, props.hostName))
+            accept(ContentType.Application.Json)
+            setBody(LobbyDto(lobbyCode, props.userName))
         }
-        console.log(response.status)
         if (response.status.isSuccess()) {
             props.onCreateClick(lobbyCode)
         }
