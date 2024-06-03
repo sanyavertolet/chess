@@ -1,13 +1,13 @@
-package com.sanyavertolet.chess
+package com.sanyavertolet.chess.services
 
 import com.sanyavertolet.chess.dto.LobbyDto
 import com.sanyavertolet.chess.entities.Lobby
 import com.sanyavertolet.chess.entities.Player
+import com.sanyavertolet.chess.lobbies
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
-import io.ktor.server.websocket.*
 import io.ktor.websocket.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -106,44 +106,6 @@ suspend fun getLobby(call: ApplicationCall) {
 
 suspend fun getLobbies(call: ApplicationCall) {
     call.respond(HttpStatusCode.OK, lobbies.values.map { it.toDto() })
-}
-
-suspend fun processLobbyWebSocketSession(
-    webSocketServerSession: DefaultWebSocketServerSession,
-) = with(webSocketServerSession) {
-    val lobbyCode = call.parameters["lobbyCode"] ?: return close(
-        CloseReason(CloseReason.Codes.VIOLATED_POLICY, "Lobby code is not provided.")
-    )
-
-    val userName = call.parameters["userName"] ?: return close(
-        CloseReason(CloseReason.Codes.VIOLATED_POLICY, "Username is not provided.")
-    )
-
-    val lobby = lobbies[lobbyCode] ?: return close(
-        CloseReason(
-            CloseReason.Codes.NOT_CONSISTENT,
-            "Could not find lobby [$lobbyCode].",
-        )
-    ).also { logger.debug("Could not find lobby [$lobbyCode].") }
-
-    val player = lobby.players[userName] ?: return close(
-        CloseReason(
-            CloseReason.Codes.NOT_CONSISTENT,
-            "Player did not join lobby [$lobbyCode].",
-        )
-    ).also { logger.debug("Player $userName did not join lobby [$lobbyCode].") }
-
-    player.connection = this
-    logger.debug("Player $userName joined the lobby [$lobbyCode].")
-    try {
-        for (frame in incoming) {
-            @Suppress("UNUSED_VARIABLE") val event = frame as? Frame.Text ?: continue
-            // todo: Implement reading user events (e.g. move) and sending server events (e.g. game state)
-        }
-    } finally {
-        logger.debug("Player $userName disconnected from the lobby [$lobbyCode].")
-        player.connection = null
-    }
 }
 
 private val logger = LoggerFactory.getLogger("LobbyService")

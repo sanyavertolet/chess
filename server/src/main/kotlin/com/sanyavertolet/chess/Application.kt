@@ -1,7 +1,5 @@
 package com.sanyavertolet.chess
 
-import com.sanyavertolet.chess.dto.API
-import com.sanyavertolet.chess.dto.V1
 import com.sanyavertolet.chess.entities.Lobby
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.*
@@ -23,36 +21,14 @@ import org.slf4j.event.Level
 import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
 
-fun main() {
-    embeddedServer(CIO, port = 8081, host = "0.0.0.0", module = Application::module).start(wait = true)
-}
-
-fun Application.configureRouting() {
-    routing {
-        route("/$API") {
-            route("/$V1") {
-                route("/lobby") {
-                    get { getLobbies(call) }
-                    get("/{lobbyCode}") { getLobby(call) }
-                    post("/{lobbyCode}/join") { joinLobby(call) }
-                    post("/{lobbyCode}/leave") { leaveLobby(call) }
-                    post { createLobby(call) }
-                }
-            }
-        }
-
-        webSocket("/join/{lobbyCode}/{userName}") {
-            processLobbyWebSocketSession(this)
-        }
-
-        staticResources("/", "public")
-    }
-}
-
 /**
  * todo: implement cleaner that would depend on [Lobby.createdTime]
  */
 val lobbies: ConcurrentHashMap<String, Lobby> = ConcurrentHashMap()
+
+fun main() {
+    embeddedServer(CIO, port = 8081, host = "0.0.0.0", module = Application::module).start(wait = true)
+}
 
 fun Application.module() {
     install(CallLogging) {
@@ -79,5 +55,9 @@ fun Application.module() {
         masking = false
     }
 
-    configureRouting()
+    routing {
+        httpRouting()
+        webSocketRouting()
+        staticResources("/", "public")
+    }
 }

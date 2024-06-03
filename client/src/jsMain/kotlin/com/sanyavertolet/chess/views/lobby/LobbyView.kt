@@ -67,7 +67,11 @@ val lobbyView: FC<LobbyViewProps> = FC {
                 sx { paddingTop = 2.rem }
 
                 lobbyDto?.let {
-                    lobbyComponent { this.lobbyDto = it }
+                    lobbyComponent {
+                        this.lobbyDto = it
+                        this.onReadyClick = {}
+                        this.onNotReadyClick = {}
+                    }
                 } ?: noSuchLobbyComponent {
                     this.lobbyCode = lobbyCode ?: "UNKNOWN"
                     this.fetchLobbyDto = fetchLobbyDto
