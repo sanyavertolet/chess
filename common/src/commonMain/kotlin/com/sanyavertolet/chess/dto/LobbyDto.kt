@@ -6,5 +6,4 @@ import kotlinx.serialization.Serializable
 data class LobbyDto(
     val lobbyCode: String,
     val hostName: String,
-    val players: List<String> = emptyList(),
 )

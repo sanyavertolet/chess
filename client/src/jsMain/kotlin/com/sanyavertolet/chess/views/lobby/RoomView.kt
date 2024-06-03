@@ -4,7 +4,7 @@ import com.sanyavertolet.chess.dto.LobbyDto
 import com.sanyavertolet.chess.get
 import com.sanyavertolet.chess.utils.useDeferredRequest
 import com.sanyavertolet.chess.utils.useOnce
-import com.sanyavertolet.chess.views.lobby.components.lobbyComponent
+import com.sanyavertolet.chess.views.lobby.components.roomComponent
 import com.sanyavertolet.chess.views.lobby.components.noSuchLobbyComponent
 import io.ktor.client.call.*
 import io.ktor.http.*
@@ -20,14 +20,14 @@ import react.useState
 import web.cssom.Margin
 import web.cssom.rem
 
-external interface LobbyViewProps : Props
+external interface RoomViewProps : Props
 
-val lobbyView: FC<LobbyViewProps> = FC {
+val roomView: FC<RoomViewProps> = FC {
     val params = useParams()
     val navigate = useNavigate()
 
-    val (userName, _) = useState(params["userName"])
-    val (lobbyCode, _) = useState(params["lobbyCode"])
+    val userName = params["userName"]
+    val lobbyCode = params["lobbyCode"]
 
     val (lobbyDto, setLobbyDto) = useState<LobbyDto?>(null)
 
@@ -67,10 +67,8 @@ val lobbyView: FC<LobbyViewProps> = FC {
                 sx { paddingTop = 2.rem }
 
                 lobbyDto?.let {
-                    lobbyComponent {
+                    roomComponent {
                         this.lobbyDto = it
-                        this.onReadyClick = {}
-                        this.onNotReadyClick = {}
                     }
                 } ?: noSuchLobbyComponent {
                     this.lobbyCode = lobbyCode ?: "UNKNOWN"

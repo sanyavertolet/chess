@@ -1,7 +1,10 @@
 package com.sanyavertolet.chess.utils
 
+import com.sanyavertolet.chess.BrowserWebSocketClient
+import com.sanyavertolet.chess.dto.ServerEventProcessor
 import kotlinx.coroutines.*
 import react.useEffect
+import react.useMemo
 import react.useState
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -81,4 +84,16 @@ fun <R> useRequest(
             }
         }
     }
+}
+
+fun useWebSocketClient(
+    lobbyCode: String,
+    userName: String,
+    serverEventProcessor: ServerEventProcessor,
+): BrowserWebSocketClient {
+    val client = useMemo(lobbyCode, userName) {
+        BrowserWebSocketClient(lobbyCode, userName, serverEventProcessor)
+    }
+    useEffect(lobbyCode, userName) { client.connect() }
+    return client
 }

@@ -34,7 +34,7 @@ suspend fun processLobbyWebSocketSession(
     ).also { logger.debug("Player $userName did not join lobby [$lobbyCode].") }
 
     player.connection = this
-    sendPlayerConnectedEvent(lobby, userName)
+    lobby.players.values.map { sendPlayerConnectedEvent(lobby, it.userName) }
     logger.debug("Player $userName joined the lobby [$lobbyCode].")
     try {
         for (frame in incoming) {

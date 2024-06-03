@@ -10,5 +10,5 @@ data class Lobby(
 ) {
     var players: MutableMap<String, Player> = mutableMapOf(hostName to Player(hostName))
 
-    fun toDto() = LobbyDto(lobbyCode, hostName, players.keys.toList())
+    fun toDto() = LobbyDto(lobbyCode, hostName)
 }
