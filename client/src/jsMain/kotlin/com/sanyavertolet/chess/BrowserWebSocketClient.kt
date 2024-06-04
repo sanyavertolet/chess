@@ -6,6 +6,7 @@ import com.sanyavertolet.chess.dto.ServerEventProcessor
 import com.sanyavertolet.chess.dto.events.ClientEvent
 import com.sanyavertolet.chess.dto.events.ServerEvent
 import com.sanyavertolet.chess.dto.game.Position
+import com.sanyavertolet.chess.dto.json
 import io.ktor.client.*
 import io.ktor.client.engine.js.*
 import io.ktor.client.plugins.websocket.*
@@ -15,7 +16,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 import kotlin.coroutines.CoroutineContext
 
 class BrowserWebSocketClient(
@@ -28,7 +28,7 @@ class BrowserWebSocketClient(
     private val messageQueue = Channel<ClientEvent>()
     private val client = HttpClient(Js) {
         install(WebSockets) {
-            contentConverter = KotlinxWebsocketSerializationConverter(Json)
+            contentConverter = KotlinxWebsocketSerializationConverter(json)
         }
     }
 
@@ -55,7 +55,7 @@ class BrowserWebSocketClient(
     private suspend fun DefaultClientWebSocketSession.processIncomingMessages() {
         for (frame in incoming) {
             val textFrame = (frame as? Frame.Text)?.readText() ?: continue
-            val event: ServerEvent = Json.decodeFromString(textFrame)
+            val event: ServerEvent = json.decodeFromString(textFrame)
             serverEventProcessor.onEvent(event)
         }
     }

@@ -1,5 +1,6 @@
 package com.sanyavertolet.chess
 
+import com.sanyavertolet.chess.dto.json
 import com.sanyavertolet.chess.entities.Lobby
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.*
@@ -16,7 +17,6 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
-import kotlinx.serialization.json.Json
 import org.slf4j.event.Level
 import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
@@ -36,7 +36,7 @@ fun Application.module() {
         filter { call -> call.request.path().startsWith("/") }
     }
     install(ContentNegotiation) {
-        json()
+        json(json)
     }
     install(CORS) {
         allowHeader(HttpHeaders.ContentType)
@@ -48,7 +48,7 @@ fun Application.module() {
         }
     }
     install(WebSockets) {
-        contentConverter = KotlinxWebsocketSerializationConverter(Json)
+        contentConverter = KotlinxWebsocketSerializationConverter(json)
         pingPeriod = Duration.ofSeconds(15)
         timeout = Duration.ofSeconds(15)
         maxFrameSize = Long.MAX_VALUE

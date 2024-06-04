@@ -1,7 +1,6 @@
 package com.sanyavertolet.chess.dto.events
 
-import com.sanyavertolet.chess.dto.game.BoardInfo
-import com.sanyavertolet.chess.dto.game.GameStatus
+import com.sanyavertolet.chess.dto.game.GameState
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -19,16 +18,14 @@ sealed class ServerEvent {
     data class PlayerNotReady(val lobbyCode: String, val senderName: String) : ServerEvent()
 
     @Serializable
-    data class GameStarted(val lobbyCode: String, val whiteUserName: String) : ServerEvent()
+    data class GameStarted(val lobbyCode: String, val gameState: GameState, val whiteUserName: String) : ServerEvent()
 
     @Serializable
-    data class GameState(
-        val lobbyCode: String,
-        val turnUserName: String,
-        val boardInfo: BoardInfo,
-        val gameStatus: GameStatus,
-    ) : ServerEvent()
+    data class GameUpdated(val lobbyCode: String, val gameState: GameState) : ServerEvent()
 
     @Serializable
-    data class Error(val error: String) : ServerEvent()
+    data class GameFinished(val lobbyCode: String, val gameState: GameState, val winnerName: String) : ServerEvent()
+
+    @Serializable
+    data class Error(val lobbyCode: String, val error: String) : ServerEvent()
 }

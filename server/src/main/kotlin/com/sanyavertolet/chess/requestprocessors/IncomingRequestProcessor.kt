@@ -1,19 +1,24 @@
 package com.sanyavertolet.chess.requestprocessors
 
+import com.sanyavertolet.chess.game.ChessGame
 import com.sanyavertolet.chess.dto.events.ClientEvent
+import com.sanyavertolet.chess.dto.game.GameStatus
+import com.sanyavertolet.chess.dto.game.Piece
+import com.sanyavertolet.chess.dto.json
 import com.sanyavertolet.chess.lobbies
+import com.sanyavertolet.chess.requestprocessors.OutgoingRequestProcessor.sendGameFinishedEvent
 import com.sanyavertolet.chess.requestprocessors.OutgoingRequestProcessor.sendGameStartedEvent
+import com.sanyavertolet.chess.requestprocessors.OutgoingRequestProcessor.sendGameUpdatedEvent
 import com.sanyavertolet.chess.requestprocessors.OutgoingRequestProcessor.sendPlayerNotReadyEvent
 import com.sanyavertolet.chess.requestprocessors.OutgoingRequestProcessor.sendPlayerReadyEvent
 import io.ktor.websocket.*
-import kotlinx.serialization.json.Json
 
 object IncomingRequestProcessor {
     suspend fun processFrame(frame: Frame) {
         when(frame) {
             is Frame.Text -> {
                 val eventFrame = frame as? Frame.Text ?: return
-                when(val event: ClientEvent = Json.decodeFromString(eventFrame.readText())) {
+                when(val event: ClientEvent = json.decodeFromString(eventFrame.readText())) {
                     is ClientEvent.Ready -> onReadyClientEvent(event)
                     is ClientEvent.NotReady -> onNotReadyClientEvent(event)
                     is ClientEvent.StartGame -> onStartGameClientEvent(event)
@@ -40,12 +45,30 @@ object IncomingRequestProcessor {
 
     private suspend fun onStartGameClientEvent(event: ClientEvent.StartGame) {
         val lobby = lobbies[event.lobbyCode] ?: throw Error()
-        // TODO: create game instance as a part of lobby
-        sendGameStartedEvent(lobby, event.whiteUserName)
+        val whitePlayer = lobby.players[event.whiteUserName] ?: throw Error()
+        val blackPlayer = lobby.players.values.firstOrNull { it.userName != event.whiteUserName } ?: throw Error()
+        val game = ChessGame(whitePlayer, blackPlayer).also { it.initializeBoard() }
+        lobby.game = game
+        val gameState = game.collectGameState()
+        sendGameStartedEvent(lobby, gameState, event.whiteUserName)
     }
 
     private suspend fun onTurnClientEvent(event: ClientEvent.Turn) {
         val lobby = lobbies[event.lobbyCode] ?: throw Error()
-        TODO("Process turn")
+        val game = lobby.game ?: throw Error()
+        val isOk = game.applyMove(event.previousPosition, event.nextPosition)
+        if (!isOk) {
+            throw Error()
+        }
+        val gameState = game.collectGameState()
+        if (gameState.gameStatus == GameStatus.FINISHED) {
+            val winner = when(gameState.turnColor) {
+                Piece.Color.BLACK -> game.whitePlayer
+                Piece.Color.WHITE -> game.blackPlayer
+            }
+            sendGameFinishedEvent(lobby, gameState, winner)
+        } else {
+            sendGameUpdatedEvent(lobby, gameState)
+        }
     }
 }

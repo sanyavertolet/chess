@@ -1,7 +1,9 @@
 package com.sanyavertolet.chess.requestprocessors
 
 import com.sanyavertolet.chess.dto.events.ServerEvent
+import com.sanyavertolet.chess.dto.game.GameState
 import com.sanyavertolet.chess.entities.Lobby
+import com.sanyavertolet.chess.entities.Player
 import com.sanyavertolet.chess.send
 
 object OutgoingRequestProcessor {
@@ -29,9 +31,24 @@ object OutgoingRequestProcessor {
         userName
     )
 
-    suspend fun sendGameStartedEvent(lobby: Lobby, whitePlayerEvent: String) = sendEvent(
+    suspend fun sendGameStartedEvent(lobby: Lobby, gameState: GameState, whiteUserName: String) = sendEvent(
         lobby,
-        ServerEvent.GameStarted(lobby.lobbyCode, whitePlayerEvent),
+        ServerEvent.GameStarted(lobby.lobbyCode, gameState, whiteUserName),
+    )
+
+    suspend fun sendGameUpdatedEvent(lobby: Lobby, gameState: GameState) = sendEvent(
+        lobby,
+        ServerEvent.GameUpdated(lobby.lobbyCode, gameState),
+    )
+
+    suspend fun sendGameFinishedEvent(lobby: Lobby, gameState: GameState, winner: Player) = sendEvent(
+        lobby,
+        ServerEvent.GameFinished(lobby.lobbyCode, gameState, winner.userName),
+    )
+
+    suspend fun sendErrorEvent(lobby: Lobby, errorText: String) = sendEvent(
+        lobby,
+        ServerEvent.Error(lobby.lobbyCode, errorText),
     )
 
     private suspend fun sendEvent(

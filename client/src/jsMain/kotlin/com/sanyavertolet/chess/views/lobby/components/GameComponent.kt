@@ -12,4 +12,6 @@ external interface GameComponentProps : Props {
     var whiteUserName: String
 }
 
-val gameComponent: FC<GameComponentProps> = FC { }
+val gameComponent: FC<GameComponentProps> = FC { props ->
+
+}

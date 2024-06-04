@@ -46,9 +46,15 @@ val roomComponent: FC<RoomComponentProps> = FC { props ->
         }
         override suspend fun onGameStarted(event: ServerEvent.GameStarted) {
             setWhitePlayerName(event.whiteUserName)
+            console.log(event.gameState)
+            TODO("Load game state")
         }
-        override suspend fun onGameState(event: ServerEvent.GameState) {
+        override suspend fun onGameUpdated(event: ServerEvent.GameUpdated) {
             TODO("Implement game state processing on GameBoard level")
+        }
+
+        override suspend fun onGameFinished(event: ServerEvent.GameFinished) {
+            TODO("Not yet implemented")
         }
         override suspend fun onError(event: ServerEvent.Error) {
             console.log(event.error)
