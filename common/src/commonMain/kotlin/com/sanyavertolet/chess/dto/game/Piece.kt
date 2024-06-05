@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Piece(val color: Color, val type: Type, val position: Position) {
     @Serializable
-    enum class Color {
-        WHITE,
-        BLACK,
+    enum class Color(val sym: String) {
+        WHITE("w"),
+        BLACK("b"),
         ;
         fun opposite() = when (this) {
             WHITE -> BLACK
@@ -16,15 +16,17 @@ data class Piece(val color: Color, val type: Type, val position: Position) {
     }
 
     @Serializable
-    enum class Type {
-        KING,
-        QUEEN,
-        ROOK,
-        BISHOP,
-        KNIGHT,
-        PAWN,
+    enum class Type(val sym: String) {
+        KING("K"),
+        QUEEN("Q"),
+        ROOK("R"),
+        BISHOP("B"),
+        KNIGHT("H"),
+        PAWN("P"),
         ;
     }
+
+    override fun toString(): String = "${color.sym}${type.sym}"
 
     companion object {
         val orderedPieces = listOf(

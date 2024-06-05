@@ -6,4 +6,6 @@ typealias MoveSet = Set<Move>
 typealias MoveSetMap = Map<Piece, MoveSet>
 
 @Serializable
-data class Move(val piece: Piece, val oldPosition: Position, val newPosition: Position)
+data class Move(val piece: Piece, val oldPosition: Position, val newPosition: Position) {
+    override fun toString(): String = "$piece: $oldPosition -> $newPosition"
+}

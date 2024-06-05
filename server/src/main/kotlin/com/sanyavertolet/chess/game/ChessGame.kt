@@ -19,14 +19,14 @@ class ChessGame(val whitePlayer: Player, val blackPlayer: Player) {
     private var turn: Piece.Color = Piece.Color.WHITE
 
     fun initializeBoard() {
-        for (col in 0 until 8) {
-            Position(1, col).let { pieceMap[it] = Piece(WHITE, PAWN, it) }
-            Position(6, col).let { pieceMap[it] = Piece(BLACK, PAWN, it) }
+        for (i in 0..7) {
+            Position(i, 1).let { pieceMap[it] = Piece(WHITE, PAWN, it) }
+            Position(i, 6).let { pieceMap[it] = Piece(BLACK, PAWN, it) }
         }
 
-        for (col in 0 until 8) {
-            Position(0, col).let { pieceMap[it] = Piece(WHITE, Piece.orderedPieces[col], it) }
-            Position(7, col).let { pieceMap[it] = Piece(BLACK, Piece.orderedPieces[7 - col], it) }
+        for (i in 0 .. 7) {
+            Position(i, 0).let { pieceMap[it] = Piece(WHITE, Piece.orderedPieces[i], it) }
+            Position(i, 7).let { pieceMap[it] = Piece(BLACK, Piece.orderedPieces[i], it) }
         }
     }
 
@@ -38,6 +38,12 @@ class ChessGame(val whitePlayer: Player, val blackPlayer: Player) {
             gameStatus,
             possibleMoves,
         )
+    }
+
+    fun loadPieceMap(newPieceMap: PieceMap) {
+        pieceMap.clear()
+        pieceMap.putAll(newPieceMap)
+        updatePossibleMoves()
     }
 
     private fun updatePossibleMoves() {

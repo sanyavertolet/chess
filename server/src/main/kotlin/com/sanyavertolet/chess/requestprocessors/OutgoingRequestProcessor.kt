@@ -4,7 +4,7 @@ import com.sanyavertolet.chess.dto.events.ServerEvent
 import com.sanyavertolet.chess.dto.game.GameState
 import com.sanyavertolet.chess.entities.Lobby
 import com.sanyavertolet.chess.entities.Player
-import com.sanyavertolet.chess.send
+import com.sanyavertolet.chess.utils.send
 
 object OutgoingRequestProcessor {
     suspend fun sendPlayerConnectedEvent(lobby: Lobby, userName: String) = sendEvent(

@@ -1,4 +1,4 @@
-package com.sanyavertolet.chess
+package com.sanyavertolet.chess.utils
 
 import com.sanyavertolet.chess.dto.events.ServerEvent
 import com.sanyavertolet.chess.dto.json
