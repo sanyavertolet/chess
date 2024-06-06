@@ -57,7 +57,8 @@ class MovePlanner(private val pieceMap: PieceMap) {
         1 to -1,
         -1 to -1,
         -1 to 1,
-    ).map { (dx, dy) -> iterateTowardsDirectionIfPossible(dx, dy, oldPosition, color) }.flatten()
+    )
+        .map { (dx, dy) -> iterateTowardsDirectionIfPossible(dx, dy, oldPosition, color) }.flatten()
 
     private fun getPossibleMovesForQueen(
         oldPosition: Position,
@@ -65,17 +66,17 @@ class MovePlanner(private val pieceMap: PieceMap) {
     ): List<Position> = getPossibleMovesForBishop(oldPosition, color) + getPossibleMovesForRook(oldPosition, color)
 
     private fun getPossibleMovesForKing(oldPosition: Position, color: Color): List<Position> = listOf(
-            oldPosition.copy(x = oldPosition.x - 1, y = oldPosition.y - 1),
-            oldPosition.copy(x = oldPosition.x - 1, y = oldPosition.y + 0),
-            oldPosition.copy(x = oldPosition.x - 1, y = oldPosition.y + 1),
-            oldPosition.copy(x = oldPosition.x + 0, y = oldPosition.y - 1),
-            oldPosition.copy(x = oldPosition.x + 0, y = oldPosition.y + 1),
-            oldPosition.copy(x = oldPosition.x + 1, y = oldPosition.y - 1),
-            oldPosition.copy(x = oldPosition.x + 1, y = oldPosition.y + 0),
-            oldPosition.copy(x = oldPosition.x + 1, y = oldPosition.y + 1),
-        )
-            .filter { pieceMap[it]?.color != color }
-            .filter { it.x in 0..7 && it.y in 0..7 }
+        oldPosition.copy(x = oldPosition.x - 1, y = oldPosition.y - 1),
+        oldPosition.copy(x = oldPosition.x - 1, y = oldPosition.y + 0),
+        oldPosition.copy(x = oldPosition.x - 1, y = oldPosition.y + 1),
+        oldPosition.copy(x = oldPosition.x + 0, y = oldPosition.y - 1),
+        oldPosition.copy(x = oldPosition.x + 0, y = oldPosition.y + 1),
+        oldPosition.copy(x = oldPosition.x + 1, y = oldPosition.y - 1),
+        oldPosition.copy(x = oldPosition.x + 1, y = oldPosition.y + 0),
+        oldPosition.copy(x = oldPosition.x + 1, y = oldPosition.y + 1),
+    )
+        .filter { pieceMap[it]?.color != color }
+        .filter { it.x in 0..7 && it.y in 0..7 }
 
     private fun getPossibleMovesForRook(oldPosition: Position, color: Color, ): List<Position> = listOf(
         1 to 0,
@@ -87,15 +88,15 @@ class MovePlanner(private val pieceMap: PieceMap) {
         .flatten()
 
     fun getPossibleMoves(piece: Piece): MoveSet = when (piece.type) {
-            PAWN -> getPossibleMovesForPawn(piece.position, piece.color)
-            KNIGHT -> getPossibleMovesForKnight(piece.position, piece.color)
-            QUEEN -> getPossibleMovesForQueen(piece.position, piece.color)
-            KING -> getPossibleMovesForKing(piece.position, piece.color)
-            BISHOP -> getPossibleMovesForBishop(piece.position, piece.color)
-            ROOK -> getPossibleMovesForRook(piece.position, piece.color)
-        }
-            .map { Move(piece, piece.position, it) }
-            .toSet()
+        PAWN -> getPossibleMovesForPawn(piece.position, piece.color)
+        KNIGHT -> getPossibleMovesForKnight(piece.position, piece.color)
+        QUEEN -> getPossibleMovesForQueen(piece.position, piece.color)
+        KING -> getPossibleMovesForKing(piece.position, piece.color)
+        BISHOP -> getPossibleMovesForBishop(piece.position, piece.color)
+        ROOK -> getPossibleMovesForRook(piece.position, piece.color)
+    }
+        .map { Move(piece, piece.position, it) }
+        .toSet()
 
     fun getPossibleMoves(): MoveSetMap = pieceMap.values.associateWith { getPossibleMoves(it) }
 }
