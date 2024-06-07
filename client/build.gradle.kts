@@ -43,6 +43,10 @@ kotlin {
                 implementation(kotlinw("emotion"))
                 implementation(kotlinw("mui-material"))
                 implementation(kotlinw("mui-icons-material"))
+
+                implementation(npm("@fortawesome/fontawesome-svg-core", "^6.5.2"))
+                implementation(npm("@fortawesome/free-regular-svg-icons", "^6.5.2"))
+                implementation(npm("@fortawesome/react-fontawesome", "^0.2.2"))
             }
         }
     }

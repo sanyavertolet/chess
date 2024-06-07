@@ -8,7 +8,6 @@ import com.sanyavertolet.chess.dto.game.Piece.Type.PAWN
 import com.sanyavertolet.chess.entities.Player
 
 typealias MutablePieceMap = MutableMap<Position, Piece>
-typealias PieceMap = Map<Position, Piece>
 
 class ChessGame(val whitePlayer: Player, val blackPlayer: Player) {
     private val pieceMap: MutablePieceMap = mutableMapOf()
@@ -47,7 +46,7 @@ class ChessGame(val whitePlayer: Player, val blackPlayer: Player) {
     }
 
     private fun updatePossibleMoves() {
-        possibleMoves = movePlanner.getPossibleMoves()
+        possibleMoves = movePlanner.getPossibleMoves(turn)
     }
 
     fun applyMove(oldPosition: Position, newPosition: Position): Boolean {

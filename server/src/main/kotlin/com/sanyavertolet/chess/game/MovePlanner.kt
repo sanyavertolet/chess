@@ -78,7 +78,7 @@ class MovePlanner(private val pieceMap: PieceMap) {
         .filter { pieceMap[it]?.color != color }
         .filter { it.x in 0..7 && it.y in 0..7 }
 
-    private fun getPossibleMovesForRook(oldPosition: Position, color: Color, ): List<Position> = listOf(
+    private fun getPossibleMovesForRook(oldPosition: Position, color: Color): List<Position> = listOf(
         1 to 0,
         0 to 1,
         -1 to 0,
@@ -98,5 +98,7 @@ class MovePlanner(private val pieceMap: PieceMap) {
         .map { Move(piece, piece.position, it) }
         .toSet()
 
-    fun getPossibleMoves(): MoveSetMap = pieceMap.values.associateWith { getPossibleMoves(it) }
+    fun getPossibleMoves(color: Color): MoveSetMap = pieceMap.values
+        .filter { it.color == color }
+        .associateWith { getPossibleMoves(it) }
 }

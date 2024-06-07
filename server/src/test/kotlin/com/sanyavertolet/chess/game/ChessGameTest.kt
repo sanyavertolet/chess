@@ -1,9 +1,6 @@
 package com.sanyavertolet.chess.game
 
-import com.sanyavertolet.chess.dto.game.GameStatus
-import com.sanyavertolet.chess.dto.game.Move
-import com.sanyavertolet.chess.dto.game.Piece
-import com.sanyavertolet.chess.dto.game.Position
+import com.sanyavertolet.chess.dto.game.*
 import com.sanyavertolet.chess.entities.Player
 import kotlin.test.*
 

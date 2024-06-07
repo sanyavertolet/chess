@@ -9,11 +9,17 @@ import mui.system.sx
 import react.FC
 import react.create
 import react.router.RouterProvider
+import web.cssom.AlignItems
+import web.cssom.JustifyContent
 import web.cssom.TextAlign
 
 val app = FC {
     Container {
         maxWidth = "md"
+        sx {
+            justifyContent = JustifyContent.center
+            alignItems = AlignItems.center
+        }
         Typography {
             sx { textAlign = TextAlign.center }
             variant = TypographyVariant.h2

@@ -2,12 +2,14 @@ package com.sanyavertolet.chess.dto.game
 
 import kotlinx.serialization.Serializable
 
+typealias PieceMap = Map<Position, Piece>
+
 @Serializable
 data class Piece(val color: Color, val type: Type, val position: Position) {
     @Serializable
-    enum class Color(val sym: String) {
-        WHITE("w"),
-        BLACK("b"),
+    enum class Color(val sym: String, val hex: String) {
+        WHITE("w", "#ffffff"),
+        BLACK("b", "#000000"),
         ;
         fun opposite() = when (this) {
             WHITE -> BLACK

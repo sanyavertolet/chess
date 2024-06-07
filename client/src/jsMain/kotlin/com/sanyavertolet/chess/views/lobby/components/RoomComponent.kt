@@ -3,25 +3,37 @@ package com.sanyavertolet.chess.views.lobby.components
 import com.sanyavertolet.chess.dto.LobbyDto
 import com.sanyavertolet.chess.dto.ServerEventProcessor
 import com.sanyavertolet.chess.dto.events.ServerEvent
+import com.sanyavertolet.chess.dto.game.GameState
+import com.sanyavertolet.chess.dto.game.Piece
 import com.sanyavertolet.chess.game.Player
 import com.sanyavertolet.chess.utils.useWebSocketClient
+import mui.material.Button
+import mui.material.Stack
+import mui.material.Typography
+import mui.system.responsive
+import mui.system.sx
 import react.FC
 import react.Props
+import react.router.useNavigate
 import react.router.useParams
 import react.useEffect
 import react.useState
+import web.cssom.AlignItems
+import web.cssom.JustifyContent
 
 external interface RoomComponentProps : Props {
     var lobbyDto: LobbyDto
 }
 
 val roomComponent: FC<RoomComponentProps> = FC { props ->
+    val navigate = useNavigate()
     val params = useParams()
     val userName = params["userName"]!!
 
-    val (whitePlayerName, setWhitePlayerName) = useState<String?>(null)
     val (opponent, setOpponent) = useState<Player?>(null)
     val (currentPlayer, setCurrentPlayer) = useState(Player(userName, false))
+    val (winnerName, setWinnerName) = useState<String?>(null)
+    val (gameState, setGameState) = useState<GameState?>(null)
 
     useEffect(userName) {
         if (currentPlayer.userName != userName) {
@@ -45,16 +57,22 @@ val roomComponent: FC<RoomComponentProps> = FC { props ->
             setOpponent { opponent -> opponent?.copy(isReady = false) }
         }
         override suspend fun onGameStarted(event: ServerEvent.GameStarted) {
-            setWhitePlayerName(event.whiteUserName)
-            console.log(event.gameState)
-            TODO("Load game state")
+            if (event.whiteUserName == currentPlayer.userName) {
+                setCurrentPlayer { player -> player.copy(color = Piece.Color.WHITE) }
+                setOpponent { player -> player?.copy(color = Piece.Color.BLACK) }
+            } else {
+                setOpponent { player -> player?.copy(color = Piece.Color.WHITE) }
+                setCurrentPlayer { player -> player.copy(color = Piece.Color.BLACK) }
+            }
+            setGameState(event.gameState)
         }
         override suspend fun onGameUpdated(event: ServerEvent.GameUpdated) {
-            TODO("Implement game state processing on GameBoard level")
+            setGameState(event.gameState)
         }
 
         override suspend fun onGameFinished(event: ServerEvent.GameFinished) {
-            TODO("Not yet implemented")
+            setWinnerName(event.winnerName)
+
         }
         override suspend fun onError(event: ServerEvent.Error) {
             console.log(event.error)
@@ -63,26 +81,42 @@ val roomComponent: FC<RoomComponentProps> = FC { props ->
 
     val webSocketClient = useWebSocketClient(props.lobbyDto.lobbyCode, userName, serverEventProcessor)
 
-    whitePlayerName?.let { playerName ->
-        gameComponent {
-            this.currentPlayer = currentPlayer
-            this.opponent = opponent!!
-            this.webSocketClient = webSocketClient
-            this.whiteUserName = playerName
+    winnerName?.let {
+        Stack {
+            spacing = responsive(5)
+            sx {
+                alignItems = AlignItems.center
+                justifyContent = JustifyContent.center
+            }
+            Typography { +"$it won!" }
+
+            Button {
+                onClick = { navigate("/") }
+                +"Go to main menu"
+            }
         }
-    } ?: lobbyComponent {
-        this.opponent = opponent
-        this.lobbyDto = props.lobbyDto
-        this.onReadyClick = {
-            webSocketClient.sendReadyEvent()
-            setCurrentPlayer { it.copy(isReady = true) }
-        }
-        this.onNotReadyClick = {
-            webSocketClient.sendNotReadyEvent()
-            setCurrentPlayer { it.copy(isReady = false) }
-        }
-        this.onStartClick = {
-            webSocketClient.sendStartGameEvent(it)
+    } ?: run {
+        gameState?.let { state ->
+            gameComponent {
+                this.currentPlayer = currentPlayer
+                this.opponent = opponent!!
+                this.webSocketClient = webSocketClient
+                this.gameState = state
+            }
+        } ?: lobbyComponent {
+            this.opponent = opponent
+            this.lobbyDto = props.lobbyDto
+            this.onReadyClick = {
+                webSocketClient.sendReadyEvent()
+                setCurrentPlayer { it.copy(isReady = true) }
+            }
+            this.onNotReadyClick = {
+                webSocketClient.sendNotReadyEvent()
+                setCurrentPlayer { it.copy(isReady = false) }
+            }
+            this.onStartClick = {
+                webSocketClient.sendStartGameEvent(it)
+            }
         }
     }
 }
