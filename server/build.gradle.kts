@@ -5,7 +5,7 @@ plugins {
 }
 
 application {
-    mainClass.set("com.sanyavertolet.server.ApplicationKt")
+    mainClass.set("com.sanyavertolet.chess.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
@@ -19,6 +19,7 @@ dependencies {
     implementation(project(":common"))
 
     implementation(libs.kotlinx.datetime)
+    implementation(libs.kotlin.argparser)
 
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.cio)

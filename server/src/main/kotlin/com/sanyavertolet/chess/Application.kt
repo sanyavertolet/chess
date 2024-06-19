@@ -1,6 +1,8 @@
 package com.sanyavertolet.chess
 
 import com.sanyavertolet.chess.entities.Lobby
+import com.xenomachina.argparser.ArgParser
+import com.xenomachina.argparser.default
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.*
 import io.ktor.serialization.kotlinx.json.*
@@ -25,8 +27,10 @@ import java.util.concurrent.ConcurrentHashMap
  */
 val lobbies: ConcurrentHashMap<String, Lobby> = ConcurrentHashMap()
 
-fun main() {
-    embeddedServer(CIO, port = 8081, host = "0.0.0.0", module = Application::module).start(wait = true)
+fun main(args: Array<String>) {
+    val parser = ArgParser(args)
+    val port by parser.storing("-p", "--port", help = "server port") { toInt() }.default(8081)
+    embeddedServer(CIO, port = port, host = "0.0.0.0", module = Application::module).start(wait = true)
 }
 
 fun Application.module() {
