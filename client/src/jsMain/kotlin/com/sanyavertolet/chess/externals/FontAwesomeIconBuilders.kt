@@ -1,6 +1,6 @@
 package com.sanyavertolet.chess.externals
 
-import com.sanyavertolet.chess.dto.game.Piece
+import com.sanyavertolet.chess.game.Piece
 import react.ChildrenBuilder
 import react.react
 

@@ -1,7 +1,7 @@
 package com.sanyavertolet.chess.requestprocessors
 
-import com.sanyavertolet.chess.dto.events.ServerEvent
-import com.sanyavertolet.chess.dto.game.GameState
+import com.sanyavertolet.chess.events.ServerEvent
+import com.sanyavertolet.chess.game.GameState
 import com.sanyavertolet.chess.entities.Lobby
 import com.sanyavertolet.chess.entities.Player
 import com.sanyavertolet.chess.utils.send

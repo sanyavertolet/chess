@@ -1,10 +1,10 @@
 package com.sanyavertolet.chess.views.lobby.components
 
 import com.sanyavertolet.chess.dto.LobbyDto
-import com.sanyavertolet.chess.dto.ServerEventProcessor
-import com.sanyavertolet.chess.dto.events.ServerEvent
-import com.sanyavertolet.chess.dto.game.GameState
-import com.sanyavertolet.chess.dto.game.Piece
+import com.sanyavertolet.chess.ServerEventProcessor
+import com.sanyavertolet.chess.events.ServerEvent
+import com.sanyavertolet.chess.game.GameState
+import com.sanyavertolet.chess.game.Piece
 import com.sanyavertolet.chess.game.Player
 import com.sanyavertolet.chess.utils.useWebSocketClient
 import mui.material.Button

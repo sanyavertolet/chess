@@ -1,11 +1,10 @@
 package com.sanyavertolet.chess
 
-import com.sanyavertolet.chess.dto.events.ServerEvent
-import com.sanyavertolet.chess.dto.game.GameState
-import com.sanyavertolet.chess.dto.game.GameStatus
-import com.sanyavertolet.chess.dto.game.Piece
-import com.sanyavertolet.chess.dto.game.Position
-import com.sanyavertolet.chess.dto.json
+import com.sanyavertolet.chess.events.ServerEvent
+import com.sanyavertolet.chess.game.GameState
+import com.sanyavertolet.chess.game.GameStatus
+import com.sanyavertolet.chess.game.Piece
+import com.sanyavertolet.chess.game.Position
 import kotlinx.serialization.encodeToString
 import kotlin.test.Test
 import kotlin.test.assertEquals

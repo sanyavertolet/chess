@@ -1,6 +1,5 @@
 package com.sanyavertolet.chess
 
-import com.sanyavertolet.chess.dto.json
 import com.sanyavertolet.chess.entities.Lobby
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.*

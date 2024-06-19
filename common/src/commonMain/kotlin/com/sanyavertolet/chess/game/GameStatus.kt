@@ -1,4 +1,4 @@
-package com.sanyavertolet.chess.dto.game
+package com.sanyavertolet.chess.game
 
 import kotlinx.serialization.Serializable
 

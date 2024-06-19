@@ -1,4 +1,4 @@
-package com.sanyavertolet.chess.dto.game
+package com.sanyavertolet.chess.game
 
 import kotlinx.serialization.Serializable
 
@@ -32,14 +32,14 @@ data class Piece(val color: Color, val type: Type, val position: Position) {
 
     companion object {
         val orderedPieces = listOf(
-            Piece.Type.ROOK,
-            Piece.Type.KNIGHT,
-            Piece.Type.BISHOP,
-            Piece.Type.QUEEN,
-            Piece.Type.KING,
-            Piece.Type.BISHOP,
-            Piece.Type.KNIGHT,
-            Piece.Type.ROOK
+            Type.ROOK,
+            Type.KNIGHT,
+            Type.BISHOP,
+            Type.QUEEN,
+            Type.KING,
+            Type.BISHOP,
+            Type.KNIGHT,
+            Type.ROOK
         )
     }
 }

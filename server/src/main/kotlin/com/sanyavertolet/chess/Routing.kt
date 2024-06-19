@@ -1,7 +1,5 @@
 package com.sanyavertolet.chess
 
-import com.sanyavertolet.chess.dto.API
-import com.sanyavertolet.chess.dto.V1
 import com.sanyavertolet.chess.services.*
 import io.ktor.server.application.*
 import io.ktor.server.routing.*

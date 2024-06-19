@@ -1,9 +1,8 @@
 package com.sanyavertolet.chess.game
 
-import com.sanyavertolet.chess.dto.game.*
-import com.sanyavertolet.chess.dto.game.Piece.Color
-import com.sanyavertolet.chess.dto.game.Piece.Color.WHITE
-import com.sanyavertolet.chess.dto.game.Piece.Type.*
+import com.sanyavertolet.chess.game.Piece.Color
+import com.sanyavertolet.chess.game.Piece.Color.WHITE
+import com.sanyavertolet.chess.game.Piece.Type.*
 
 class MovePlanner(private val pieceMap: PieceMap) {
     private fun getPossibleMovesForPawn(oldPosition: Position, color: Color): List<Position> {

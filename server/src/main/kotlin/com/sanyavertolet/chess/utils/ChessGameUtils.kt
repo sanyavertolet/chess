@@ -1,6 +1,6 @@
 package com.sanyavertolet.chess.utils
 
-import com.sanyavertolet.chess.dto.game.PieceMap
+import com.sanyavertolet.chess.game.PieceMap
 
 @Suppress("unused")
 fun PieceMap.prettyPrint(): String {

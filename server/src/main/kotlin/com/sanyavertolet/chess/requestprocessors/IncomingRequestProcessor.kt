@@ -1,10 +1,10 @@
 package com.sanyavertolet.chess.requestprocessors
 
 import com.sanyavertolet.chess.game.ChessGame
-import com.sanyavertolet.chess.dto.events.ClientEvent
-import com.sanyavertolet.chess.dto.game.GameStatus
-import com.sanyavertolet.chess.dto.game.Piece
-import com.sanyavertolet.chess.dto.json
+import com.sanyavertolet.chess.events.ClientEvent
+import com.sanyavertolet.chess.game.GameStatus
+import com.sanyavertolet.chess.game.Piece
+import com.sanyavertolet.chess.json
 import com.sanyavertolet.chess.lobbies
 import com.sanyavertolet.chess.requestprocessors.OutgoingRequestProcessor.sendGameFinishedEvent
 import com.sanyavertolet.chess.requestprocessors.OutgoingRequestProcessor.sendGameStartedEvent

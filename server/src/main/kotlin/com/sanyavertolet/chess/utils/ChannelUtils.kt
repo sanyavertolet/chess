@@ -1,7 +1,7 @@
 package com.sanyavertolet.chess.utils
 
-import com.sanyavertolet.chess.dto.events.ServerEvent
-import com.sanyavertolet.chess.dto.json
+import com.sanyavertolet.chess.events.ServerEvent
+import com.sanyavertolet.chess.json
 import io.ktor.websocket.*
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.serialization.encodeToString

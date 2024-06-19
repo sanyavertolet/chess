@@ -1,17 +1,14 @@
 package com.sanyavertolet.chess
 
-import com.sanyavertolet.chess.dto.HOST
-import com.sanyavertolet.chess.dto.PORT
-import com.sanyavertolet.chess.dto.ServerEventProcessor
-import com.sanyavertolet.chess.dto.events.ClientEvent
-import com.sanyavertolet.chess.dto.events.ServerEvent
-import com.sanyavertolet.chess.dto.game.Position
-import com.sanyavertolet.chess.dto.json
+import com.sanyavertolet.chess.events.ClientEvent
+import com.sanyavertolet.chess.events.ServerEvent
+import com.sanyavertolet.chess.game.Position
 import io.ktor.client.*
 import io.ktor.client.engine.js.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.serialization.kotlinx.*
 import io.ktor.websocket.*
+import kotlinx.browser.window
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -34,7 +31,7 @@ class BrowserWebSocketClient(
 
     fun connect() {
         scope.launch {
-            client.webSocket(host = HOST, port = PORT, path = "/join/$lobbyCode/$userName") {
+            client.webSocket("ws://${window.location.host}/join/$lobbyCode/$userName") {
                 scope.launch { processIncomingMessages() }
                 scope.launch { processOutgoingMessages() }
                 closeReason.await()

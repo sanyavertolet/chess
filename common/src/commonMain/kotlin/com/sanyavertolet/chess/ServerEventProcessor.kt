@@ -1,6 +1,6 @@
-package com.sanyavertolet.chess.dto
+package com.sanyavertolet.chess
 
-import com.sanyavertolet.chess.dto.events.ServerEvent
+import com.sanyavertolet.chess.events.ServerEvent
 
 interface ServerEventProcessor {
     suspend fun onEvent(event: ServerEvent) {

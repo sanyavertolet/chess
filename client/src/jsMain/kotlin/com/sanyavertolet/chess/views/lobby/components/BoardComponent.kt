@@ -1,8 +1,8 @@
 package com.sanyavertolet.chess.views.lobby.components
 
-import com.sanyavertolet.chess.dto.game.*
-import com.sanyavertolet.chess.dto.game.Position
+import com.sanyavertolet.chess.game.Position
 import com.sanyavertolet.chess.externals.fontAwesomeIcon
+import com.sanyavertolet.chess.game.*
 import com.sanyavertolet.chess.utils.Colors
 import mui.material.Button
 import mui.material.Stack

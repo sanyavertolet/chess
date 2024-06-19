@@ -1,7 +1,7 @@
 package com.sanyavertolet.chess.views.lobby.components
 
 import com.sanyavertolet.chess.BrowserWebSocketClient
-import com.sanyavertolet.chess.dto.game.GameState
+import com.sanyavertolet.chess.game.GameState
 import com.sanyavertolet.chess.game.Player
 import mui.material.Stack
 import mui.material.Typography

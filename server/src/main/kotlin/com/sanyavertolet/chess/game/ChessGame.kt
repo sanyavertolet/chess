@@ -1,10 +1,9 @@
 package com.sanyavertolet.chess.game
 
-import com.sanyavertolet.chess.dto.game.*
-import com.sanyavertolet.chess.dto.game.Piece.Color.BLACK
-import com.sanyavertolet.chess.dto.game.Piece.Color.WHITE
-import com.sanyavertolet.chess.dto.game.Piece.Type.KING
-import com.sanyavertolet.chess.dto.game.Piece.Type.PAWN
+import com.sanyavertolet.chess.game.Piece.Color.BLACK
+import com.sanyavertolet.chess.game.Piece.Color.WHITE
+import com.sanyavertolet.chess.game.Piece.Type.KING
+import com.sanyavertolet.chess.game.Piece.Type.PAWN
 import com.sanyavertolet.chess.entities.Player
 
 typealias MutablePieceMap = MutableMap<Position, Piece>

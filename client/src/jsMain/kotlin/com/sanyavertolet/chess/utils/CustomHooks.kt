@@ -1,7 +1,7 @@
 package com.sanyavertolet.chess.utils
 
 import com.sanyavertolet.chess.BrowserWebSocketClient
-import com.sanyavertolet.chess.dto.ServerEventProcessor
+import com.sanyavertolet.chess.ServerEventProcessor
 import kotlinx.coroutines.*
 import react.useEffect
 import react.useMemo

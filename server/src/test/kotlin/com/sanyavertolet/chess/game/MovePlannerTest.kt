@@ -1,8 +1,5 @@
 package com.sanyavertolet.chess.game
 
-import com.sanyavertolet.chess.dto.game.Piece
-import com.sanyavertolet.chess.dto.game.PieceMap
-import com.sanyavertolet.chess.dto.game.Position
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

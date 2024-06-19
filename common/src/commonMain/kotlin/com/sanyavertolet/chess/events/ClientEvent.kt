@@ -1,6 +1,6 @@
-package com.sanyavertolet.chess.dto.events
+package com.sanyavertolet.chess.events
 
-import com.sanyavertolet.chess.dto.game.Position
+import com.sanyavertolet.chess.game.Position
 import kotlinx.serialization.Serializable
 
 @Serializable
