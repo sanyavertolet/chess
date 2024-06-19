@@ -1,3 +1,9 @@
+/**
+ * Browse component
+ */
+
+@file:Suppress("FILE_NAME_MATCH_CLASS")
+
 package com.sanyavertolet.chess.views.welcome.components
 
 import com.sanyavertolet.chess.dto.LobbyDto
@@ -14,12 +20,9 @@ import react.Props
 import react.dom.html.ReactHTML.th
 import react.useState
 
-external interface BrowseComponentProps : Props {
-    var onJoinClick: (String) -> Unit
-    var isJoinButtonDisabled: Boolean
-    var userName: String
-}
-
+/**
+ * Browse component [FC]
+ */
 val browseComponent: FC<BrowseComponentProps> = FC { props ->
     val (lobbies, setLobbies) = useState<List<LobbyDto>>(emptyList())
     val (isUpdate, setIsUpdate) = useState(false)
@@ -99,4 +102,24 @@ val browseComponent: FC<BrowseComponentProps> = FC { props ->
     } ?: Typography {
         +"No lobbies found, you can create one!"
     }
+}
+
+/**
+ * [Props] of [browseComponent]
+ */
+external interface BrowseComponentProps : Props {
+    /**
+     * Callback to join to lobby
+     */
+    var onJoinClick: (String) -> Unit
+
+    /**
+     * Flag that defines if join button disabled
+     */
+    var isJoinButtonDisabled: Boolean
+
+    /**
+     * Current username
+     */
+    var userName: String
 }

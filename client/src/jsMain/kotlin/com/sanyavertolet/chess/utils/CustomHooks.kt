@@ -1,12 +1,18 @@
+/**
+ * Custom hooks
+ */
+
 package com.sanyavertolet.chess.utils
 
 import com.sanyavertolet.chess.BrowserWebSocketClient
 import com.sanyavertolet.chess.ServerEventProcessor
-import kotlinx.coroutines.*
+
 import react.useEffect
 import react.useMemo
 import react.useState
+
 import kotlin.coroutines.cancellation.CancellationException
+import kotlinx.coroutines.*
 
 /**
  * Runs the provided [action] only once of first render
@@ -35,6 +41,10 @@ fun useOnceAction(): (() -> Unit) -> Unit {
     }
 }
 
+/**
+ * @param request request builder
+ * @return callback to send request
+ */
 @Suppress("unused")
 fun <R> useDeferredRequest(
     request: suspend () -> R,
@@ -67,6 +77,10 @@ fun <R> useDeferredRequest(
     return initiateSending
 }
 
+/**
+ * @param dependencies vararg of dependencies - when at least one changes - request is resent
+ * @param request request builder
+ */
 @Suppress("unused")
 fun <R> useRequest(
     vararg dependencies: Any?,
@@ -86,6 +100,14 @@ fun <R> useRequest(
     }
 }
 
+/**
+ * Hook to set up websocket connection
+ *
+ * @param lobbyCode code of a current lobby
+ * @param userName name of a current user
+ * @param serverEventProcessor [ServerEventProcessor]
+ * @return configured [BrowserWebSocketClient]
+ */
 fun useWebSocketClient(
     lobbyCode: String,
     userName: String,

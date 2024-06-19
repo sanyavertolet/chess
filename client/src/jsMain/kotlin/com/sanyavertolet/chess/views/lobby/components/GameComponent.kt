@@ -1,3 +1,9 @@
+/**
+ * Game component
+ */
+
+@file:Suppress("FILE_NAME_MATCH_CLASS")
+
 package com.sanyavertolet.chess.views.lobby.components
 
 import com.sanyavertolet.chess.BrowserWebSocketClient
@@ -9,13 +15,9 @@ import mui.system.responsive
 import react.FC
 import react.Props
 
-external interface GameComponentProps : Props {
-    var currentPlayer: Player
-    var opponent: Player
-    var webSocketClient: BrowserWebSocketClient
-    var gameState: GameState
-}
-
+/**
+ * Game component [FC]
+ */
 val gameComponent: FC<GameComponentProps> = FC { props ->
     Stack {
         spacing = responsive(4)
@@ -33,4 +35,31 @@ val gameComponent: FC<GameComponentProps> = FC { props ->
             currentPlayerColor = props.currentPlayer.color!!
         }
     }
+}
+
+/**
+ * [Props] of [gameComponent]
+ */
+external interface GameComponentProps : Props {
+    /**
+     * Current player
+     */
+    var currentPlayer: Player
+
+    /**
+     * Opponent as [Player]
+     */
+    var opponent: Player
+
+    /**
+     * Configured [BrowserWebSocketClient]
+     *
+     * Notice: should be configured with [com.sanyavertolet.chess.utils.useWebSocketClient] react custom hook
+     */
+    var webSocketClient: BrowserWebSocketClient
+
+    /**
+     * Current [GameState]
+     */
+    var gameState: GameState
 }

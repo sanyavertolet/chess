@@ -1,3 +1,9 @@
+/**
+ * File containing FontAwesome builders
+ */
+
+@file:Suppress("FILE_NAME_MATCH_CLASS")
+
 package com.sanyavertolet.chess.externals
 
 import com.sanyavertolet.chess.game.Piece
@@ -11,7 +17,7 @@ import react.react
  */
 external interface FontAwesomeIconModule {
     /**
-     * Definition of FA icon ([IconDefinition] in terms of `@fortawesome/fontawesome-common-types`)
+     * Definition of FA icon (IconDefinition in terms of `@fortawesome/fontawesome-common-types`)
      */
     var definition: dynamic
 }
@@ -23,9 +29,11 @@ external interface FontAwesomeIconModule {
  * @param classes
  * @param size size of an icon
  * @param handler
- *
  * @see <a href=https://fontawesome.com/docs/web/use-with/react/style#size>size docs</a>
+ * @param color
+ * @param border
  */
+@Suppress("TOO_MANY_PARAMETERS")
 fun ChildrenBuilder.fontAwesomeIcon(
     icon: FontAwesomeIconModule,
     classes: String = "",
@@ -42,10 +50,14 @@ fun ChildrenBuilder.fontAwesomeIcon(
     color?.let { this.color = it }
 }
 
+/**
+ * @param piece [Piece] to display or null if no [Piece] is present in current cell
+ * @param size size as [String] or null for default
+ */
 fun ChildrenBuilder.fontAwesomeIcon(
     piece: Piece?,
     size: String? = null,
-) = when(piece?.type) {
+) = when (piece?.type) {
     Piece.Type.KING -> fontAwesomeIcon(faChessKing, color = piece.color.hex, size = size)
     Piece.Type.QUEEN -> fontAwesomeIcon(faChessQueen, color = piece.color.hex, size = size)
     Piece.Type.BISHOP -> fontAwesomeIcon(faChessBishop, color = piece.color.hex, size = size)

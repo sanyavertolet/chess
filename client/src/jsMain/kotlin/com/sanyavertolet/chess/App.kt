@@ -1,8 +1,12 @@
+/**
+ * Root FC
+ */
+
 package com.sanyavertolet.chess
 
 import com.sanyavertolet.chess.routing.createRouter
 import com.sanyavertolet.chess.views.errorView
-import kotlinx.browser.window
+
 import mui.material.Container
 import mui.material.Typography
 import mui.material.styles.TypographyVariant
@@ -14,8 +18,13 @@ import web.cssom.AlignItems
 import web.cssom.JustifyContent
 import web.cssom.TextAlign
 
+import kotlinx.browser.window
+
 val baseUrl = "${window.location.origin}/$API/$V1"
 
+/**
+ * Root [FC]
+ */
 val app = FC {
     Container {
         maxWidth = "md"
@@ -35,4 +44,7 @@ val app = FC {
     }
 }
 
+/**
+ * Entry point of frontend
+ */
 fun main() = rootWrapper(app)

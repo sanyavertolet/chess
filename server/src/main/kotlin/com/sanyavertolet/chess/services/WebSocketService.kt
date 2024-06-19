@@ -1,3 +1,7 @@
+/**
+ * WebSocketSession processor
+ */
+
 package com.sanyavertolet.chess.services
 
 import com.sanyavertolet.chess.lobbies
@@ -8,6 +12,12 @@ import io.ktor.server.websocket.*
 import io.ktor.websocket.*
 import org.slf4j.LoggerFactory
 
+private val logger = LoggerFactory.getLogger("WebSocketService")
+
+/**
+ * @param webSocketServerSession current [DefaultWebSocketServerSession]
+ * @return [Unit]
+ */
 suspend fun processLobbyWebSocketSession(
     webSocketServerSession: DefaultWebSocketServerSession,
 ) = with(webSocketServerSession) {
@@ -46,5 +56,3 @@ suspend fun processLobbyWebSocketSession(
         player.connection = null
     }
 }
-
-private val logger = LoggerFactory.getLogger("WebSocketService")

@@ -1,3 +1,7 @@
+/**
+ * Set of chess icons
+ */
+
 package com.sanyavertolet.chess.externals
 
 @JsModule("@fortawesome/free-regular-svg-icons/faChessRook")

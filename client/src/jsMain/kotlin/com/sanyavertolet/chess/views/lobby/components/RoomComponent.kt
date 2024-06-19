@@ -1,12 +1,19 @@
+/**
+ * Room component
+ */
+
+@file:Suppress("FILE_NAME_MATCH_CLASS")
+
 package com.sanyavertolet.chess.views.lobby.components
 
-import com.sanyavertolet.chess.dto.LobbyDto
 import com.sanyavertolet.chess.ServerEventProcessor
+import com.sanyavertolet.chess.dto.LobbyDto
 import com.sanyavertolet.chess.events.ServerEvent
 import com.sanyavertolet.chess.game.GameState
 import com.sanyavertolet.chess.game.Piece
 import com.sanyavertolet.chess.game.Player
 import com.sanyavertolet.chess.utils.useWebSocketClient
+
 import mui.material.Button
 import mui.material.Stack
 import mui.material.Typography
@@ -21,10 +28,9 @@ import react.useState
 import web.cssom.AlignItems
 import web.cssom.JustifyContent
 
-external interface RoomComponentProps : Props {
-    var lobbyDto: LobbyDto
-}
-
+/**
+ * Room component [FC]
+ */
 val roomComponent: FC<RoomComponentProps> = FC { props ->
     val navigate = useNavigate()
     val params = useParams()
@@ -72,9 +78,10 @@ val roomComponent: FC<RoomComponentProps> = FC { props ->
 
         override suspend fun onGameFinished(event: ServerEvent.GameFinished) {
             setWinnerName(event.winnerName)
-
         }
         override suspend fun onError(event: ServerEvent.Error) {
+            @Suppress("DEBUG_PRINT")
+            // todo: implement error processing
             console.log(event.error)
         }
     }
@@ -119,4 +126,14 @@ val roomComponent: FC<RoomComponentProps> = FC { props ->
             }
         }
     }
+}
+
+/**
+ * [Props] of [roomComponent]
+ */
+external interface RoomComponentProps : Props {
+    /**
+     * Current lobby as [LobbyDto]
+     */
+    var lobbyDto: LobbyDto
 }

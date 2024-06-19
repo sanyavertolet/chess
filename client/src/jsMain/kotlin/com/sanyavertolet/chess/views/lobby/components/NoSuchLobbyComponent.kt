@@ -1,3 +1,9 @@
+/**
+ * Component that displays that there is no such lobby
+ */
+
+@file:Suppress("FILE_NAME_MATCH_CLASS")
+
 package com.sanyavertolet.chess.views.lobby.components
 
 import mui.material.*
@@ -8,12 +14,9 @@ import react.Props
 import web.cssom.AlignItems
 import web.cssom.JustifyContent
 
-external interface NoSuchLobbyComponentProps : Props {
-    var lobbyCode: String
-    var fetchLobbyDto: () -> Unit
-    var goToMainMenu: () -> Unit
-}
-
+/**
+ * Component that displays that there is no such lobby
+ */
 val noSuchLobbyComponent: FC<NoSuchLobbyComponentProps> = FC { props ->
     Stack {
         sx { alignItems = AlignItems.center }
@@ -39,4 +42,24 @@ val noSuchLobbyComponent: FC<NoSuchLobbyComponentProps> = FC { props ->
             }
         }
     }
+}
+
+/**
+ * [Props] for [noSuchLobbyComponent]
+ */
+external interface NoSuchLobbyComponentProps : Props {
+    /**
+     * Code of a lobby
+     */
+    var lobbyCode: String
+
+    /**
+     * Callback to fetch lobby info
+     */
+    var fetchLobbyDto: () -> Unit
+
+    /**
+     * Callback to navigate to `/`
+     */
+    var goToMainMenu: () -> Unit
 }

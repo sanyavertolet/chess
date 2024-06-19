@@ -1,9 +1,11 @@
 /**
  * Publishing configuration file.
  */
+
 @file:Suppress(
     "MISSING_KDOC_TOP_LEVEL",
     "MISSING_KDOC_ON_FUNCTION",
+    "GENERIC_VARIABLE_WRONG_DECLARATION",
 )
 
 package com.sanyavertolet.chess.buildutils
@@ -134,7 +136,7 @@ fun Project.configurePublications() {
             this.pom {
                 name.set(project.name)
                 description.set(project.description ?: project.name)
-//                url.set("https://github.com/sanyavertolet")
+                // url.set("https://github.com/sanyavertolet")
                 licenses {
                     license {
                         name.set("MIT License")

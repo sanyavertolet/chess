@@ -1,3 +1,9 @@
+/**
+ * "Welcome" view
+ */
+
+@file:Suppress("FILE_NAME_MATCH_CLASS")
+
 package com.sanyavertolet.chess.views.welcome
 
 import com.sanyavertolet.chess.utils.isNameValid
@@ -18,6 +24,9 @@ import web.cssom.JustifyContent
 import web.cssom.Margin
 import web.cssom.rem
 
+/**
+ * "Welcome" view [FC]
+ */
 val welcomeView = FC {
     val navigate = useNavigate()
     val (userName, setUserName) = useState("")
@@ -41,7 +50,7 @@ val welcomeView = FC {
                     variant = FormControlVariant.outlined
                     value = userName
                     error = isUserNameValid == false
-                    helperText = ReactNode("Username should have at least 2 chars and at most 15.").takeIf { isUserNameValid == false}
+                    helperText = ReactNode("Username should have at least 2 chars and at most 15.").takeIf { isUserNameValid == false }
                     onChange = { setUserName(it.targetValue) }
                 }
 
@@ -98,9 +107,12 @@ val welcomeView = FC {
     }
 }
 
+/**
+ * @property prettyString pretty button name
+ */
 private enum class Mode(val prettyString: String) {
+    BROWSE("Browse"),
     CREATE("Create"),
     JOIN("Join"),
-    BROWSE("Browse"),
     ;
 }

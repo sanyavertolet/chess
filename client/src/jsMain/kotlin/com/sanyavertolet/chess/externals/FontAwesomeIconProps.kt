@@ -30,5 +30,8 @@ external interface FontAwesomeIconProps : PropsWithChildren {
      */
     var size: String?
 
+    /**
+     * Should icon border be displayed
+     */
     var border: Boolean
 }

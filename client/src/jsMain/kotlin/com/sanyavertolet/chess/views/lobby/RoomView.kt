@@ -1,11 +1,18 @@
+/**
+ * Room View
+ */
+
+@file:Suppress("FILE_NAME_MATCH_CLASS")
+
 package com.sanyavertolet.chess.views.lobby
 
 import com.sanyavertolet.chess.dto.LobbyDto
 import com.sanyavertolet.chess.get
 import com.sanyavertolet.chess.utils.useDeferredRequest
 import com.sanyavertolet.chess.utils.useOnce
-import com.sanyavertolet.chess.views.lobby.components.roomComponent
 import com.sanyavertolet.chess.views.lobby.components.noSuchLobbyComponent
+import com.sanyavertolet.chess.views.lobby.components.roomComponent
+
 import io.ktor.client.call.*
 import io.ktor.http.*
 import mui.material.*
@@ -20,8 +27,9 @@ import react.useState
 import web.cssom.Margin
 import web.cssom.rem
 
-external interface RoomViewProps : Props
-
+/**
+ * roomView [FC]
+ */
 val roomView: FC<RoomViewProps> = FC {
     val params = useParams()
     val navigate = useNavigate()
@@ -60,7 +68,6 @@ val roomView: FC<RoomViewProps> = FC {
                 Divider {
                     sx { margin = Margin(1.rem, 0.rem) }
                 }
-
             }
 
             Box {
@@ -79,3 +86,8 @@ val roomView: FC<RoomViewProps> = FC {
         }
     }
 }
+
+/**
+ * [Props] for [roomView]
+ */
+external interface RoomViewProps : Props

@@ -1,3 +1,7 @@
+/**
+ * Entry point for backend
+ */
+
 package com.sanyavertolet.chess
 
 import com.sanyavertolet.chess.entities.Lobby
@@ -22,17 +26,19 @@ import org.slf4j.event.Level
 import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
 
+private const val DEFAULT_TIMEOUT_SEC = 15L
+private const val DEBUG_PORT = 8081
+
 /**
+ * [ConcurrentHashMap] where [Lobby.lobbyCode] is a key and corresponding [Lobby] is a value
+ *
  * todo: implement cleaner that would depend on [Lobby.createdTime]
  */
 val lobbies: ConcurrentHashMap<String, Lobby> = ConcurrentHashMap()
 
-fun main(args: Array<String>) {
-    val parser = ArgParser(args)
-    val port by parser.storing("-p", "--port", help = "server port") { toInt() }.default(8081)
-    embeddedServer(CIO, port = port, host = "0.0.0.0", module = Application::module).start(wait = true)
-}
-
+/**
+ * Ktor configuration
+ */
 fun Application.module() {
     install(CallLogging) {
         level = Level.INFO
@@ -52,8 +58,8 @@ fun Application.module() {
     }
     install(WebSockets) {
         contentConverter = KotlinxWebsocketSerializationConverter(json)
-        pingPeriod = Duration.ofSeconds(15)
-        timeout = Duration.ofSeconds(15)
+        pingPeriod = Duration.ofSeconds(DEFAULT_TIMEOUT_SEC)
+        timeout = Duration.ofSeconds(DEFAULT_TIMEOUT_SEC)
         maxFrameSize = Long.MAX_VALUE
         masking = false
     }
@@ -63,4 +69,15 @@ fun Application.module() {
         webSocketRouting()
         staticResources("/", "public")
     }
+}
+
+/**
+ * Real backend entry point
+ *
+ * @param args commandline arguments
+ */
+fun main(args: Array<String>) {
+    val parser = ArgParser(args)
+    val port by parser.storing("-p", "--port", help = "server port") { toInt() }.default(DEBUG_PORT)
+    embeddedServer(CIO, port = port, host = "0.0.0.0", module = Application::module).start(wait = true)
 }

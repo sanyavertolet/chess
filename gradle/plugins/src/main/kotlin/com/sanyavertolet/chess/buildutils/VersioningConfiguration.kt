@@ -39,7 +39,7 @@ fun Project.configureVersioning() {
     if (!status.isClean) {
         logger.warn(
             "git tree is not clean; " +
-                "Untracked files: ${status.untracked}, uncommitted changes: ${status.uncommittedChanges}",
+                    "Untracked files: ${status.untracked}, uncommitted changes: ${status.uncommittedChanges}",
         )
     }
 }

@@ -1,3 +1,9 @@
+/**
+ * Join component
+ */
+
+@file:Suppress("FILE_NAME_MATCH_CLASS")
+
 package com.sanyavertolet.chess.views.welcome.components
 
 import com.sanyavertolet.chess.post
@@ -15,12 +21,9 @@ import react.dom.onChange
 import react.useState
 import web.cssom.rem
 
-external interface JoinComponentProps : Props {
-    var onJoinClick: (String) -> Unit
-    var isJoinButtonDisabled: Boolean
-    var userName: String
-}
-
+/**
+ * Join component [FC]
+ */
 val joinComponent: FC<JoinComponentProps> = FC { props ->
     val (lobbyCode, setLobbyCode) = useState("")
 
@@ -55,4 +58,24 @@ val joinComponent: FC<JoinComponentProps> = FC { props ->
             +"Join"
         }
     }
+}
+
+/**
+ * [Props] of [joinComponent]
+ */
+external interface JoinComponentProps : Props {
+    /**
+     * Callback to join the lobby
+     */
+    var onJoinClick: (String) -> Unit
+
+    /**
+     * Flag that defines is `join` button disabled
+     */
+    var isJoinButtonDisabled: Boolean
+
+    /**
+     * Current username
+     */
+    var userName: String
 }

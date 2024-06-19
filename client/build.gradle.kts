@@ -10,6 +10,10 @@ repositories {
     mavenCentral()
 }
 
+/**
+ * @param target package name substring
+ * @return full package name
+ */
 fun kotlinw(target: String): String = "org.jetbrains.kotlin-wrappers:kotlin-$target"
 
 kotlin {

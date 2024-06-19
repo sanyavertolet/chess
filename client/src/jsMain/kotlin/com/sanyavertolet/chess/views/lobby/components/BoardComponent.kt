@@ -1,9 +1,16 @@
+/**
+ * Chess board component
+ */
+
+@file:Suppress("FILE_NAME_MATCH_CLASS")
+
 package com.sanyavertolet.chess.views.lobby.components
 
-import com.sanyavertolet.chess.game.Position
 import com.sanyavertolet.chess.externals.fontAwesomeIcon
 import com.sanyavertolet.chess.game.*
+import com.sanyavertolet.chess.game.Position
 import com.sanyavertolet.chess.utils.Colors
+
 import mui.material.Button
 import mui.material.Stack
 import mui.material.StackDirection
@@ -15,28 +22,13 @@ import react.Props
 import react.useState
 import web.cssom.*
 
-external interface BoardComponentProps : Props {
-    var pieceMap: PieceMap
-    var possibleMoves: MoveSetMap
-    var requestMove: (Move) -> Unit
-    var currentPlayerColor: Piece.Color
-    var turnColor: Piece.Color
-}
+private val borderLength = 0.05.rem
+private val highlightedBorderLength = 0.3.rem
+private val cellSize = 4.rem
 
-val borderLength = 0.05.rem
-val highlightedBorderLength = 0.3.rem
-val cellSize = 4.rem
-
-fun iterateFromLeftToRight(color: Piece.Color, function: (Int) -> Unit) = when(color) {
-    Piece.Color.WHITE -> (0..7)
-    Piece.Color.BLACK -> (7 downTo 0)
-}.forEach(function)
-
-fun iterateFromTopToBottom(color: Piece.Color, function: (Int) -> Unit) = when(color) {
-    Piece.Color.WHITE -> (7 downTo 0)
-    Piece.Color.BLACK -> (0..7)
-}.forEach(function)
-
+/**
+ * Chess board component [FC]
+ */
 val boardComponent: FC<BoardComponentProps> = FC { props ->
     val (selectedPiece, setSelectedPiece) = useState<Piece?>(null)
 
@@ -69,7 +61,7 @@ val boardComponent: FC<BoardComponentProps> = FC { props ->
                             } else if (props.possibleMoves.hasMove(selectedPiece, currentPosition)) {
                                 border = Border(highlightedBorderLength, LineStyle.solid)
                                 borderColor = Colors.yellow
-                                if (props.pieceMap[currentPosition] != null) {
+                                props.pieceMap[currentPosition]?.let {
                                     border = Border(highlightedBorderLength, LineStyle.solid)
                                     borderColor = Colors.red
                                 }
@@ -103,7 +95,37 @@ val boardComponent: FC<BoardComponentProps> = FC { props ->
     }
 }
 
-fun ChildrenBuilder.label(lbl: String) {
+/**
+ * [Props] of [boardComponent]
+ */
+external interface BoardComponentProps : Props {
+    /**
+     * Current [PieceMap]
+     */
+    var pieceMap: PieceMap
+
+    /**
+     * Current possible moves as [MoveSetMap]
+     */
+    var possibleMoves: MoveSetMap
+
+    /**
+     * Request to apply selected move
+     */
+    var requestMove: (Move) -> Unit
+
+    /**
+     * Current player's [Piece.Color]
+     */
+    var currentPlayerColor: Piece.Color
+
+    /**
+     * Current turn player's [Piece.Color]
+     */
+    var turnColor: Piece.Color
+}
+
+private fun ChildrenBuilder.label(lbl: String) {
     Button {
         sx {
             width = cellSize
@@ -114,7 +136,7 @@ fun ChildrenBuilder.label(lbl: String) {
     }
 }
 
-fun ChildrenBuilder.letterRow(playerColor: Piece.Color) {
+private fun ChildrenBuilder.letterRow(playerColor: Piece.Color) {
     Stack {
         direction = responsive(StackDirection.row)
         sx {
@@ -125,3 +147,13 @@ fun ChildrenBuilder.letterRow(playerColor: Piece.Color) {
         iterateFromLeftToRight(playerColor) { label('A'.plus(it).toString()) }
     }
 }
+
+private fun iterateFromLeftToRight(color: Piece.Color, function: (Int) -> Unit) = when (color) {
+    Piece.Color.WHITE -> (0..7)
+    Piece.Color.BLACK -> (7 downTo 0)
+}.forEach(function)
+
+private fun iterateFromTopToBottom(color: Piece.Color, function: (Int) -> Unit) = when (color) {
+    Piece.Color.WHITE -> (7 downTo 0)
+    Piece.Color.BLACK -> (0..7)
+}.forEach(function)

@@ -1,3 +1,9 @@
+/**
+ * Lobby component
+ */
+
+@file:Suppress("FILE_NAME_MATCH_CLASS")
+
 package com.sanyavertolet.chess.views.lobby.components
 
 import com.sanyavertolet.chess.dto.LobbyDto
@@ -17,14 +23,9 @@ import react.useEffect
 import react.useState
 import web.cssom.AlignItems
 
-external interface LobbyComponentProps : Props {
-    var opponent: Player?
-    var lobbyDto: LobbyDto
-    var onReadyClick: () -> Unit
-    var onNotReadyClick: () -> Unit
-    var onStartClick: (String) -> Unit
-}
-
+/**
+ * Lobby component [FC]
+ */
 val lobbyComponent: FC<LobbyComponentProps> = FC { props ->
     val (isReady, setIsReady) = useState(false)
     val navigate = useNavigate()
@@ -97,4 +98,34 @@ val lobbyComponent: FC<LobbyComponentProps> = FC { props ->
             }
         }
     }
+}
+
+/**
+ * [Props] of [lobbyComponent]
+ */
+external interface LobbyComponentProps : Props {
+    /**
+     * opponent as [Player]
+     */
+    var opponent: Player?
+
+    /**
+     * Current lobby as [LobbyDto]
+     */
+    var lobbyDto: LobbyDto
+
+    /**
+     * Callback on `ready` button click
+     */
+    var onReadyClick: () -> Unit
+
+    /**
+     * Callback on `not ready` button click
+     */
+    var onNotReadyClick: () -> Unit
+
+    /**
+     * Callback on `start` button click
+     */
+    var onStartClick: (String) -> Unit
 }

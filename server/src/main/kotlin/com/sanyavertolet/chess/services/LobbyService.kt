@@ -1,19 +1,32 @@
+/**
+ * Lobby processor
+ */
+
 package com.sanyavertolet.chess.services
 
 import com.sanyavertolet.chess.dto.LobbyDto
 import com.sanyavertolet.chess.entities.Lobby
 import com.sanyavertolet.chess.entities.Player
 import com.sanyavertolet.chess.lobbies
+
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.websocket.*
+import org.slf4j.LoggerFactory
+
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.slf4j.LoggerFactory
 
+private val logger = LoggerFactory.getLogger("LobbyService")
+
+/**
+ * Create new [Lobby]
+ *
+ * @param call incoming [ApplicationCall]
+ */
 suspend fun createLobby(call: ApplicationCall) {
     val lobbyDto: LobbyDto = call.receive()
 
@@ -30,6 +43,11 @@ suspend fun createLobby(call: ApplicationCall) {
     call.respondText { "Lobby [${lobbyDto.lobbyCode}] successfully created." }
 }
 
+/**
+ * Join existing [Lobby]
+ *
+ * @param call incoming [ApplicationCall]
+ */
 suspend fun joinLobby(call: ApplicationCall) {
     val userName = call.request.queryParameters["userName"] ?: return call.respond(
         HttpStatusCode.BadRequest,
@@ -47,18 +65,23 @@ suspend fun joinLobby(call: ApplicationCall) {
     )
 
     if (requestedLobby.players.size == 2) {
-        logger.debug("Lobby [${lobbyCode}] is full.")
+        logger.debug("Lobby [$lobbyCode] is full.")
         call.respond(HttpStatusCode.Forbidden, "Lobby is full.")
-    } else if (requestedLobby.players[userName] != null) {
+    } else requestedLobby.players[userName]?.let {
         logger.debug("$userName has already joined the lobby [$lobbyCode].")
         call.respond(HttpStatusCode.Forbidden, "$userName has already joined the lobby [$lobbyCode].")
-    } else {
+    } ?: run {
         requestedLobby.players[userName] = Player(userName)
         logger.debug("Successfully joined the lobby [$lobbyCode].")
         call.respond(HttpStatusCode.OK, "Successfully joined the lobby [$lobbyCode].")
     }
 }
 
+/**
+ * Leave existing [Lobby]
+ *
+ * @param call incoming [ApplicationCall]
+ */
 suspend fun leaveLobby(call: ApplicationCall) {
     val userName = call.request.queryParameters["userName"] ?: return call.respond(
         HttpStatusCode.BadRequest,
@@ -92,6 +115,11 @@ suspend fun leaveLobby(call: ApplicationCall) {
     }
 }
 
+/**
+ * Get existing lobby info
+ *
+ * @param call incoming [ApplicationCall]
+ */
 suspend fun getLobby(call: ApplicationCall) {
     val lobbyCode = call.parameters["lobbyCode"] ?: return call.respond(
         HttpStatusCode.BadRequest,
@@ -104,8 +132,11 @@ suspend fun getLobby(call: ApplicationCall) {
     call.respond(HttpStatusCode.OK, requestedLobby.toDto())
 }
 
+/**
+ * Get list of existing [Lobby] entities
+ *
+ * @param call incoming [ApplicationCall]
+ */
 suspend fun getLobbies(call: ApplicationCall) {
     call.respond(HttpStatusCode.OK, lobbies.values.map { it.toDto() })
 }
-
-private val logger = LoggerFactory.getLogger("LobbyService")

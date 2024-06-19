@@ -1,8 +1,14 @@
+/**
+ *  Create component
+ */
+
+@file:Suppress("FILE_NAME_MATCH_CLASS")
+
 package com.sanyavertolet.chess.views.welcome.components
 
 import com.sanyavertolet.chess.dto.LobbyDto
 import com.sanyavertolet.chess.post
-import com.sanyavertolet.chess.utils.getMD5
+import com.sanyavertolet.chess.utils.getMd5
 import com.sanyavertolet.chess.utils.targetValue
 import com.sanyavertolet.chess.utils.useDeferredRequest
 import io.ktor.client.request.*
@@ -14,16 +20,13 @@ import react.*
 import react.dom.onChange
 import web.cssom.rem
 
-external interface CreateComponentProps : Props {
-    var onCreateClick: (String) -> Unit
-    var isCreateButtonDisabled: Boolean
-    var userName: String
-}
-
+/**
+ * Create component [FC]
+ */
 val createComponent: FC<CreateComponentProps> = FC { props ->
     val (lobbyCode, setLobbyCode) = useState("")
     useEffect(props.userName) {
-        setLobbyCode(props.userName.getMD5(6))
+        setLobbyCode(props.userName.getMd5(6))
     }
 
     val createLobbyRequest = useDeferredRequest {
@@ -60,4 +63,24 @@ val createComponent: FC<CreateComponentProps> = FC { props ->
             +"Create"
         }
     }
+}
+
+/**
+ * [Props] of [createComponent]
+ */
+external interface CreateComponentProps : Props {
+    /**
+     * Callback to create lobby
+     */
+    var onCreateClick: (String) -> Unit
+
+    /**
+     * Flag that defines if `create` button disabled
+     */
+    var isCreateButtonDisabled: Boolean
+
+    /**
+     * Current username
+     */
+    var userName: String
 }

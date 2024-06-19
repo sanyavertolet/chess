@@ -1,3 +1,7 @@
+/**
+ * Frontend routing configuration
+ */
+
 package com.sanyavertolet.chess.routing
 
 import com.sanyavertolet.chess.views.errorView
@@ -7,6 +11,9 @@ import js.objects.jso
 import react.create
 import react.router.dom.createHashRouter
 
+/**
+ * @return frontend hash-router
+ */
 fun createRouter() = createHashRouter(
     arrayOf(
         jso {
