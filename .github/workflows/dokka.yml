@@ -7,6 +7,9 @@ on:
 env:
   GRADLE_OPTS: -Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.welcome=never
 
+permissions:
+  contents: write
+
 jobs:
   dokka:
     name: 'Dokka'
