@@ -1,7 +1,9 @@
 plugins {
     kotlin("jvm") version "2.0.0"
-    id("io.ktor.plugin") version "2.3.11"
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.ktor)
+
     id("com.sanyavertolet.chess.buildutils.code-quality-convention")
 }
 

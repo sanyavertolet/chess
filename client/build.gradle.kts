@@ -1,6 +1,8 @@
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.dokka)
+
     id("com.sanyavertolet.chess.buildutils.code-quality-convention")
 }
 
