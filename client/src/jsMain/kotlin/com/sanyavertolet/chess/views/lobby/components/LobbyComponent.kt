@@ -26,6 +26,7 @@ import web.cssom.AlignItems
 /**
  * Lobby component [FC]
  */
+@Suppress("MagicNumber")
 val lobbyComponent: FC<LobbyComponentProps> = FC { props ->
     val (isReady, setIsReady) = useState(false)
     val navigate = useNavigate()

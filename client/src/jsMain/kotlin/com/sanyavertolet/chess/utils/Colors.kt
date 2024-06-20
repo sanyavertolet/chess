@@ -2,6 +2,7 @@ package com.sanyavertolet.chess.utils
 
 import web.cssom.rgb
 
+@Suppress("MagicNumber")
 object Colors {
     val black = rgb(0, 0, 0)
     val green = rgb(105, 146, 62)

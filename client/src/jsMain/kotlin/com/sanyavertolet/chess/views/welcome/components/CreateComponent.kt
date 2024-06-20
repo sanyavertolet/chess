@@ -20,13 +20,15 @@ import react.*
 import react.dom.onChange
 import web.cssom.rem
 
+private const val MD5_PREFIX_LENGTH = 6
+
 /**
  * Create component [FC]
  */
 val createComponent: FC<CreateComponentProps> = FC { props ->
     val (lobbyCode, setLobbyCode) = useState("")
     useEffect(props.userName) {
-        setLobbyCode(props.userName.getMd5(6))
+        setLobbyCode(props.userName.getMd5(MD5_PREFIX_LENGTH))
     }
 
     val createLobbyRequest = useDeferredRequest {

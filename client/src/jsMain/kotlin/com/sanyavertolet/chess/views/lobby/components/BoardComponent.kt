@@ -6,6 +6,7 @@
 
 package com.sanyavertolet.chess.views.lobby.components
 
+import com.sanyavertolet.chess.BOARD_SIZE
 import com.sanyavertolet.chess.externals.fontAwesomeIcon
 import com.sanyavertolet.chess.game.*
 import com.sanyavertolet.chess.game.Position
@@ -149,11 +150,11 @@ private fun ChildrenBuilder.letterRow(playerColor: Piece.Color) {
 }
 
 private fun iterateFromLeftToRight(color: Piece.Color, function: (Int) -> Unit) = when (color) {
-    Piece.Color.WHITE -> (0..7)
-    Piece.Color.BLACK -> (7 downTo 0)
+    Piece.Color.WHITE -> (0 ..< BOARD_SIZE)
+    Piece.Color.BLACK -> (BOARD_SIZE - 1 downTo 0)
 }.forEach(function)
 
 private fun iterateFromTopToBottom(color: Piece.Color, function: (Int) -> Unit) = when (color) {
-    Piece.Color.WHITE -> (7 downTo 0)
-    Piece.Color.BLACK -> (0..7)
+    Piece.Color.WHITE -> (BOARD_SIZE - 1 downTo 0)
+    Piece.Color.BLACK -> (0 ..< BOARD_SIZE)
 }.forEach(function)

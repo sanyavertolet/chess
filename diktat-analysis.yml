@@ -3,7 +3,7 @@
   configuration:
     domainName: com.sanyavertolet
     kotlinVersion: 2.0.0
-    srcDirectories: "main,nativeMain,linuxX64Main"
+    srcDirectories: "main,nativeMain,linuxX64Main,commonMain,jsMain"
     testDirs: "test,nativeTest,linuxX64Test,jvmTest"
 - name: ENUM_VALUE
   enabled: true
@@ -107,8 +107,6 @@
   configuration:
     valueArgument: true
     valueParameter: true
-# reduces speed of development on the FE
-# will remove it by for now
 - name: MAGIC_NUMBER
   enabled: false
 - name: COMPLEX_EXPRESSION

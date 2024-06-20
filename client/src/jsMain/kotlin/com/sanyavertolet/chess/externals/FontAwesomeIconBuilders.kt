@@ -2,7 +2,7 @@
  * File containing FontAwesome builders
  */
 
-@file:Suppress("FILE_NAME_MATCH_CLASS")
+@file:Suppress("FILE_NAME_MATCH_CLASS", "MatchingDeclarationName")
 
 package com.sanyavertolet.chess.externals
 
@@ -33,7 +33,7 @@ external interface FontAwesomeIconModule {
  * @param color
  * @param border
  */
-@Suppress("TOO_MANY_PARAMETERS")
+@Suppress("TOO_MANY_PARAMETERS", "LongParameterList")
 fun ChildrenBuilder.fontAwesomeIcon(
     icon: FontAwesomeIconModule,
     classes: String = "",

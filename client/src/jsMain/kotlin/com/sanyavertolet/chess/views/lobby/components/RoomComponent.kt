@@ -31,6 +31,7 @@ import web.cssom.JustifyContent
 /**
  * Room component [FC]
  */
+@Suppress("MagicNumber")
 val roomComponent: FC<RoomComponentProps> = FC { props ->
     val navigate = useNavigate()
     val params = useParams()

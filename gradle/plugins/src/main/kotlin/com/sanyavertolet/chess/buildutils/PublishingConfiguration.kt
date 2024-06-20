@@ -132,8 +132,8 @@ fun Project.configurePublications() {
     }
     configure<PublishingExtension> {
         publications.withType<MavenPublication>().configureEach {
-            this.artifact(dokkaJar)
-            this.pom {
+            artifact(dokkaJar)
+            pom {
                 name.set(project.name)
                 description.set(project.description ?: project.name)
                 // url.set("https://github.com/sanyavertolet")

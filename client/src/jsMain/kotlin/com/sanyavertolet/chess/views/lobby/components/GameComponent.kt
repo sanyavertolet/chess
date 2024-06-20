@@ -18,6 +18,7 @@ import react.Props
 /**
  * Game component [FC]
  */
+@Suppress("MagicNumber")
 val gameComponent: FC<GameComponentProps> = FC { props ->
     Stack {
         spacing = responsive(4)

@@ -17,6 +17,7 @@ fun String.getMd5(n: Int) = MD5().digest(encodeToByteArray()).toHexString().take
 /**
  * @return true if name is valid, false otherwise
  */
+@Suppress("MagicNumber")
 fun String.isNameValid() = when {
     isEmpty() -> null
     isNotBlank() && length in 2..15 -> true
